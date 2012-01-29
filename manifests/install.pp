@@ -11,13 +11,13 @@ class percona::install {
 
   package {
     $percona::params::pkg_common:
-      ensure => installed;
+      ensure => present;
   }
 
   if $percona::client {
     package {
       $percona::params::pkg_client:
-        ensure  => installed,
+        ensure  => present,
         require => Package[$percona::params::pkg_common];
     }
   }
@@ -25,7 +25,7 @@ class percona::install {
   if $percona::server {
     package {
       $percona::params::pkg_server:
-        ensure  => installed,
+        ensure  => present,
         require => Package[$percona::params::pkg_client];
     }
   }

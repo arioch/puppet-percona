@@ -30,7 +30,7 @@ class percona::preinstall {
 
     'RedHat', 'redhat', 'CentOS', 'centos': {
       package { 'percona-release':
-        ensure   => installed,
+        ensure   => present,
         provider => 'rpm',
         source   => "http://www.percona.com/redir/downloads/percona-release/percona-release-0.0-1.${::hardwaremodel}.rpm";
       }

@@ -1,0 +1,3 @@
+node percona {
+  include percona
+}
