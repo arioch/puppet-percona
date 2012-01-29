@@ -50,6 +50,18 @@
       database => 'dbfoo';
     }
 
-[apt module]: https://github.com/camptocamp/puppet-apt
+### Unit testing
 
+Unit testing is done using [rspec-puppet]
+To test the module run the following:
+
+    # Installation
+    gem install rspec-puppet --no-ri --no-rdoc
+
+    # Run tests
+    cd /etc/puppet/modules/percona
+    rake
+
+[apt module]: https://github.com/camptocamp/puppet-apt
+[rspec-puppet]: https://github.com/rodjek/rspec-puppet
 
