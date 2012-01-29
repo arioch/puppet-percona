@@ -21,7 +21,7 @@
 #    }
 #
 #  node client {
-#    class { 'percona': }
+#    include percona': }
 #  }
 #
 # Valid options:
@@ -29,18 +29,18 @@
 # Known issues:
 #
 class percona (
-  $client          = 'true',
+  $client          = true,
   $server          = undef,
   $percona_version = '5.5' # Options: 5.1, 5.5
 ) {
   include motd
   motd::register {'percona': }
 
-  class { 'percona::params': }
-  class { 'percona::preinstall': }
-  class { 'percona::install': }
-  class { 'percona::config': }
-  class { 'percona::service': }
+  include percona::params
+  include percona::preinstall
+  include percona::install
+  include percona::config
+  include percona::service
 
   Class['percona::params'] ->
   Class['percona::preinstall'] ->

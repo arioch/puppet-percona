@@ -1,4 +1,9 @@
-define percona::user ( $ensure = present, $password, $database, $host = 'localhost' ) {
+define percona::user (
+  $password,
+  $database,
+  $ensure = present,
+  $host   = 'localhost'
+) {
   case $ensure {
     'present': {
       exec { "MySQL: create user ${name}":
@@ -14,6 +19,9 @@ define percona::user ( $ensure = present, $password, $database, $host = 'localho
         require => Class['percona::service'],
         onlyif  => "mysql --user=${name} --password=${password}",
       }
+    }
+
+    default: {
     }
   }
 }
