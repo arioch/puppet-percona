@@ -33,8 +33,7 @@ class percona (
   $server          = undef,
   $percona_version = '5.5' # Options: 5.1, 5.5
 ) {
-  include motd
-  motd::register {'percona': }
+  # motd::register { 'percona': }
 
   include percona::params
   include percona::preinstall
