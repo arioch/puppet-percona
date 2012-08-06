@@ -1,9 +1,23 @@
+# = Class: percona::config::client
+#
+#
+#
+# == Todo:
+#
+# * Document what this class does.
+#
 class percona::config::client {
-  if $percona::client {
+  require percona::params
+  $client  = $::percona::params::client
+  $user    = $::percona::params::user
+  $group   = $::percona::params::group
+  $service = $::percona::params::service
+
+  if $client {
     File {
-      owner   => $percona::params::user,
-      group   => $percona::params::group,
-      notify  => Service[$percona::params::service],
+      owner   => $user,
+      group   => $group,
+      notify  => Service[$service],
       require => Class['percona::install'],
     }
   }

@@ -2,6 +2,7 @@
 #
 #
 class percona::config {
+
   include percona::config::server
   include percona::config::client
 
