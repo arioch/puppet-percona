@@ -1,27 +1,27 @@
 # Class percona::params
 #
 #
-class percona::params (
-  $percona_version = '5.1',
-  $client          = true,
-  $server          = false,
-  $config_template = undef,
-  $config_content  = undef,
-  $service         = 'mysql',
-  $user            = 'mysql',
-  $group           = 'mysql',
-  $logdir          = '/var/log/percona',
-  $socket          = '/var/lib/mysql/mysql.sock',
-  $datadir         = '/var/lib/mysql',
-  $targetdir       = '/data/backups/mysql/',
-  $errorlog        = '/var/log/mysqld.log',
-  $pidfile         = '/var/run/mysqld/mysqld.pid',
-  $mysqlthreadcon  = '1',
+class percona::params {
+  $percona_version = '5.1'
+  $client          = true
+  $server          = false
+  $config_template = undef
+  $config_content  = undef
+  $service         = 'mysql'
+  $user            = 'mysql'
+  $group           = 'mysql'
+  $logdir          = '/var/log/percona'
+  $socket          = '/var/lib/mysql/mysql.sock'
+  $datadir         = '/var/lib/mysql'
+  $targetdir       = '/data/backups/mysql/'
+  $errorlog        = '/var/log/mysqld.log'
+  $pidfile         = '/var/run/mysqld/mysqld.pid'
+  $mysqlthreadcon  = '1'
   $mysqlbufferpool = '150M'
-) {
 
   # TODO: Remove this from here, put admin password in a parameter
-  $admin_password = hiera('mysql_password')
+  #$admin_password = hiera('mysql_password')
+  $admin_password = 'default' # quick fix for now, don't have hiera yet
 
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {

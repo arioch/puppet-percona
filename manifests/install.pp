@@ -2,17 +2,15 @@
 #
 #
 class percona::install {
-
-  require percona::params
-  $pkg_common     = $::percona::params::pkg_common
-  $pkg_client     = $::percona::params::pkg_client
-  $pkg_server     = $::percona::params::pkg_server
-  $config         = $::percona::params::config
-  $server         = $::percona::params::server
-  $client         = $::percona::params::client
-  $template       = $::percona::params::template
-  $config_content = $::percona::params::config_content
-  $logdir         = $::percona::params::logdir
+  $pkg_common     = $::percona::pkg_common
+  $pkg_client     = $::percona::pkg_client
+  $pkg_server     = $::percona::pkg_server
+  $config         = $::percona::config
+  $server         = $::percona::server
+  $client         = $::percona::client
+  $template       = $::percona::template
+  $config_content = $::percona::config_content
+  $logdir         = $::percona::logdir
 
   Package {
     require => [
@@ -21,7 +19,7 @@ class percona::install {
   }
 
   package {$pkg_common:
-    ensure => 'installed';
+    ensure => 'present';
   }
 
   ## Log Directory ##
@@ -52,7 +50,7 @@ class percona::install {
   # Installation of the Percona client
   if $client {
     package {$pkg_client:
-      ensure  => 'installed',
+      ensure  => 'present',
       require => Package[$pkg_common],
     }
     Package[$pkg_client] -> File[$logdir]
@@ -60,7 +58,7 @@ class percona::install {
   # Installation of the Percona server
   if $server {
     package {$pkg_server:
-      ensure  => 'installed',
+      ensure  => 'present',
       require => Package[$pkg_client],
     }
     Package[$pkg_server] -> File[$logdir]

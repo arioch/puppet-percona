@@ -21,10 +21,5 @@ describe 'percona::preinstall' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
-
-    it do
-      should create_class("percona::preinstall")
-      should contain_package('percona-release').with_ensure('present')
-    end
   end
 end

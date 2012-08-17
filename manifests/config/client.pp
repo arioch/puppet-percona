@@ -7,11 +7,10 @@
 # * Document what this class does.
 #
 class percona::config::client {
-  require percona::params
-  $client  = $::percona::params::client
-  $user    = $::percona::params::user
-  $group   = $::percona::params::group
-  $service = $::percona::params::service
+  $client  = $::percona::client
+  $user    = $::percona::user
+  $group   = $::percona::group
+  $service = $::percona::service
 
   if $client {
     File {

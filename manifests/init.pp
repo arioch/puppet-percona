@@ -32,7 +32,7 @@
 #
 #       ## Creation of databases
 #       percona::database{'<databasename>':
-#         ensure   => present
+#         ensure => present
 #       }
 #
 #       ## This must be run on the master
@@ -46,16 +46,40 @@
 #
 #       ## This must be run on the slave nodes:
 #       percona::slave { "whatever":
-#         masterhost => "hostip",
-#         masterlog  => "masterlog",
-#         masteruser => "Replication user",
-#         masterpassword => "Repication password",
+#         masterhost        => "hostip",
+#         masterlog         => "masterlog",
+#         masteruser        => "Replication user",
+#         masterpassword    => "Repication password",
 #         masterlogposition => "Masterlogposition",
 #       }
 #     }
 #
-#
-class percona {
+class percona (
+  $percona_version = $percona::params::percona_version,
+  $client          = $percona::params::client,
+  $server          = $percona::params::server,
+  $config_template = $percona::params::config_template,
+  $config_content  = $percona::params::config_content,
+  $service         = $percona::params::service,
+  $user            = $percona::params::user,
+  $group           = $percona::params::group,
+  $logdir          = $percona::params::logdir,
+  $socket          = $percona::params::socket,
+  $datadir         = $percona::params::datadir,
+  $targetdir       = $percona::params::targetdir,
+  $errorlog        = $percona::params::errorlog,
+  $pidfile         = $percona::params::pidfile,
+  $mysqlthreadcon  = $percona::params::mysqlthreadcon,
+  $mysqlbufferpool = $percona::params::mysqlbufferpool,
+  $admin_password  = $percona::params::admin_password,
+  $pkg_version     = $percona::params::pkg_version,
+  $confdir         = $percona::params::confdir,
+  $config          = $percona::params::config,
+  $template        = $percona::params::template,
+  $pkg_client      = $percona::params::pkg_client,
+  $pkg_server      = $percona::params::pkg_server,
+  $pkg_common      = $percona::params::pkg_common,
+) inherits percona::params {
 
   include percona::preinstall
   include percona::install

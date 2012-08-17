@@ -2,18 +2,6 @@
 #
 #
 class percona::preinstall {
-
-  require percona::params
-  $client = $::percona::params::client
-  $server = $::percona::params::server
-
-
-  if $client {
-  }
-
-  if $server {
-  }
-
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
       apt::key { 'CD2EFD2A':
@@ -38,7 +26,7 @@ class percona::preinstall {
     }
 
     default: {
-      fail 'Operating system not supported yet.'
+      fail "Operating system ${::operatingsystem} is not supported yet."
     }
   }
 }

@@ -2,9 +2,7 @@
 #
 #
 class percona::service {
-
-  require percona::params
-  $service = $::percona::params::service
+  $service = $::percona::service
 
   service { $service:
     ensure  => 'running',

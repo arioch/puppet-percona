@@ -35,8 +35,7 @@ define percona::rights (
   $ensure = 'present'
 ) {
 
-  require percona::params
-  $config = $::percona::params::config
+  $config = $::percona::config
 
 
   if $::mysql_uptime != 0 {

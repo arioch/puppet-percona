@@ -1,15 +1,19 @@
-# database.pp
-
+# = Definition: mysql::rights
+#
+# A basic helper used to create a database.
+#
+# == Parameters:
+#
+# $ensure:: defaults to present
+#
 define percona::database (
-  $ensure
+  $ensure = present,
 ) {
-
-  require percona::params
 
   if $::mysql_uptime != 0 {
     mysql_database { $name:
       ensure  => $ensure,
-      require => File[$::percona::params::config],
+      require => File[$::percona::config],
     }
   }
 }

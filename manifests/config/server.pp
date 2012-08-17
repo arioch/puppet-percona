@@ -1,11 +1,10 @@
 # config/server.pp
 
 class percona::config::server {
-  require percona::params
-  $server  = $::percona::params::server
-  $user    = $::percona::params::user
-  $group   = $::percona::params::group
-  $confdir = $::percona::params::confdir
+  $server  = $::percona::server
+  $user    = $::percona::user
+  $group   = $::percona::group
+  $confdir = $::percona::confdir
 
   if $server {
     File {
