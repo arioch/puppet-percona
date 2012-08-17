@@ -55,12 +55,11 @@
 Unit testing is done using [rspec-puppet]
 To test the module run the following:
 
-    # Installation
-    gem install rspec-puppet --no-ri --no-rdoc
+    # Install dependencies
+    bundle install
 
     # Run tests
-    cd /etc/puppet/modules/percona
-    rake
+    bundle exec rspec
 
 [apt module]: https://github.com/camptocamp/puppet-apt
 [rspec-puppet]: https://github.com/rodjek/rspec-puppet
