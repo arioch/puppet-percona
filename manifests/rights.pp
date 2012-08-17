@@ -37,7 +37,6 @@ define percona::rights (
 
   $config_file = $::percona::config_file
 
-
   if $::mysql_uptime != 0 {
     if ! defined(Mysql_user["${user}@${host}"]) {
       mysql_user { "${user}@${host}":

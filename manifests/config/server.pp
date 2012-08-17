@@ -2,13 +2,17 @@
 #
 #
 class percona::config::server {
-  $server           = $::percona::server
-  $config_user      = $::percona::config_user
-  $config_group     = $::percona::config_group
+  $config_content   = $::percona::config_content
   $config_dir       = $::percona::config_dir
-  $config_file_mode = $::percona::config_file_mode
   $config_dir_mode  = $::percona::config_dir_mode
+  $config_file      = $::percona::config_file
+  $config_file_mode = $::percona::config_file_mode
+  $config_group     = $::percona::config_group
+  $config_user      = $::percona::config_user
+  $logdir           = $::percona::logdir
+  $server           = $::percona::server
   $service_name     = $::percona::service_name
+  $template         = $::percona::template
 
   if $server {
     File {

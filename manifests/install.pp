@@ -16,6 +16,7 @@ class percona::install {
     ],
   }
 
+  # Installation of Percona's shared libraries
   package { $pkg_common:
     ensure => 'present';
   }
