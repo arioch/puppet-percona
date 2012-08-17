@@ -1,26 +1,23 @@
+# config/server.pp
+
 class percona::config::server {
-  if $percona::server {
+  require percona::params
+  $server  = $::percona::params::server
+  $user    = $::percona::params::user
+  $group   = $::percona::params::group
+  $confdir = $::percona::params::confdir
+
+  if $server {
     File {
-      owner   => $percona::params::user,
-      group   => $percona::params::group,
-      notify  => Service[$percona::params::service],
+      owner   => $user,
+      group   => $group,
       require => Class['percona::install'],
     }
 
-    if $percona::params::confdir {
-      file { $percona::params::confdir:
-        ensure => directory;
+    if $confdir {
+      file { $confdir:
+        ensure => 'directory';
       }
-    }
-
-    file {
-      $percona::params::config:
-        ensure  => present,
-        content => template ("percona/my.cnf.${::operatingsystem}.erb");
-
-      $percona::params::datadir:
-        ensure => directory,
-        mode   => '0700';
     }
   }
 }

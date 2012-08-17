@@ -2,16 +2,13 @@
 #
 #
 class percona::service {
-  Service {
-    require => Class['percona::config'],
-    enable  => true,
-  }
 
-  if $percona::server {
-    service {
-      $percona::params::service:
-        ensure => running,
-        enable => true,
-    }
+  require percona::params
+  $service = $::percona::params::service
+
+  service { $service:
+    ensure  => 'running',
+    enable  => true,
+    require => Class['percona::config'],
   }
 }

@@ -1,34 +1,15 @@
+# database.pp
+
 define percona::database (
-  $ensure,
-  $dump = undef
+  $ensure
 ) {
-  case $ensure {
-    present: {
-      exec { 'MySQL create $name db':
-        command => "mysql --defaults-file=/etc/mysql/debian.cnf --execute=\"CREATE DATABASE ${name}\";",
-        unless  => "mysql --defaults-file=/etc/mysql/debian.cnf --execute=\"SHOW DATABASES;\" | grep -x '${name}'",
-        require => Class['percona::service'],
-      }
-    }
 
-    importdb: {
-      exec { 'MySQL import db':
-        command => "mysql --defaults-file=/etc/mysql/debian.cnf --execute=\"CREATE DATABASE ${name}\";
-              mysql --defaults-file=/etc/mysql/debian.cnf ${name} < ${dump}",
-        require => Class['percona::service'],
-      }
-    }
+  require percona::params
 
-    absent: {
-      exec { 'MySQL drop $name db':
-        command => "mysql --defaults-file=/etc/mysql/debian.cnf --execute=\"DROP DATABASE ${name}\";",
-        onlyif  => "mysql --defaults-file=/etc/mysql/debian.cnf --execute=\"SHOW DATABASES;\" | grep -x '${name}'",
-        require => Class['percona::service'],
-      }
-    }
-
-    default: {
-      fail "Invalid 'ensure' value '$ensure' for mysql::database"
+  if $::mysql_uptime != 0 {
+    mysql_database { $name:
+      ensure  => $ensure,
+      require => File[$::percona::params::config],
     }
   }
 }
