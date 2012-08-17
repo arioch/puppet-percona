@@ -5,11 +5,9 @@ class percona::install {
   $pkg_common     = $::percona::pkg_common
   $pkg_client     = $::percona::pkg_client
   $pkg_server     = $::percona::pkg_server
-  $config         = $::percona::config
   $server         = $::percona::server
   $client         = $::percona::client
   $template       = $::percona::template
-  $config_content = $::percona::config_content
   $logdir         = $::percona::logdir
 
   Package {

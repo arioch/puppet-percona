@@ -7,11 +7,13 @@ class percona::params {
   $server            = false
   $config_template   = undef
   $config_content    = undef
+  $config_user       = 'root'
+  $config_group      = 'root'
+  $config_file_mode  = '0640'
+  $config_dir_mode   = '0750'
   $service_enable    = true
   $service_name      = 'mysql'
   $service_ensure    = 'running'
-  $config_user       = 'root'
-  $config_group      = 'root'
   $daemon_user       = 'mysql'
   $daemon_group      = 'mysql'
   $logdir            = '/var/log/percona'
@@ -30,15 +32,15 @@ class percona::params {
     /(?i:debian|ubuntu)/: {
       $pkg_version = $percona_version
 
-      $confdir    = '/etc/mysql'
-      $config     = '/etc/mysql/my.cnf'
-      $template = $config_template ? {
+      $config_dir  = '/etc/mysql'
+      $config_file = '/etc/mysql/my.cnf'
+      $template    = $config_template ? {
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
       }
-      $pkg_client = "percona-server-client-${pkg_version}"
-      $pkg_server = "percona-server-server-${pkg_version}"
-      $pkg_common = [
+      $pkg_client  = "percona-server-client-${pkg_version}"
+      $pkg_server  = "percona-server-server-${pkg_version}"
+      $pkg_common  = [
         'percona-toolkit',
         "percona-server-common-${pkg_version}"
       ]
@@ -51,8 +53,8 @@ class percona::params {
         default    => regsubst($percona_version, '\.', '', 'G'),
       }
 
-      $config     = '/etc/my.cnf'
-      $template = $config_template ? {
+      $config_file = '/etc/my.cnf'
+      $template    = $config_template ? {
         undef   => 'percona/my.cnf.RedHat.erb',
         default => $config_template,
       }
