@@ -23,11 +23,12 @@
 #       $mysqlthreadcon  = "1"
 #
 #
-#       class { 'percona::params':
-#         server          => true,
-#         percona_version => '5.1',
+#       class {
+#         'apt':;   # debian only
+#         'percona':
+#           server          => true,
+#           percona_version => '5.1',
 #       }
-#       include percona
 #
 #
 #       ## Creation of databases
@@ -60,9 +61,13 @@ class percona (
   $server          = $percona::params::server,
   $config_template = $percona::params::config_template,
   $config_content  = $percona::params::config_content,
-  $service         = $percona::params::service,
-  $user            = $percona::params::user,
-  $group           = $percona::params::group,
+  $service_name    = $percona::params::service_name,
+  $service_enable  = $percona::params::service_enable,
+  $service_ensure  = $percona::params::service_ensure,
+  $config_user     = $percona::params::config_user,
+  $config_group    = $percona::params::config_group,
+  $daemon_user     = $percona::params::daemon_user,
+  $daemon_group    = $percona::params::daemon_group,
   $logdir          = $percona::params::logdir,
   $socket          = $percona::params::socket,
   $datadir         = $percona::params::datadir,

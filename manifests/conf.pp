@@ -4,11 +4,11 @@ define percona::conf (
 ) {
   file { "${percona::confdir}/conf.d/${name}.cnf":
     ensure  => $ensure,
-    owner   => $percona::user,
-    group   => $percona::group,
+    owner   => $percona::config_user,
+    group   => $percona::config_group,
     mode    => '0600',
     content => $content,
     require => Class['percona::config'],
-    notify  => Service[$percona::service],
+    notify  => Service[$percona::service_name],
   }
 }

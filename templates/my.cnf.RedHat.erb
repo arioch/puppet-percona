@@ -3,19 +3,19 @@
 #
 
 [mysqld]
-datadir=<%= scope.lookupvar('percona::params::datadir') %>
-socket=<%= scope.lookupvar('percona::params::socket') %>
-user=<%= scope.lookupvar('percona::params::user') %>
+datadir=<%= scope.lookupvar('percona::datadir') %>
+socket=<%= scope.lookupvar('percona::socket') %>
+user=<%= scope.lookupvar('percona::user') %>
 innodb_file_per_table
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
 
 [mysqld_safe]
-log-error=<%= scope.lookupvar('percona::params::errorlog') %>
-pid-file=<%= scope.lookupvar('percona::params::pidfile') %>
+log-error=<%= scope.lookupvar('percona::errorlog') %>
+pid-file=<%= scope.lookupvar('percona::pidfile') %>
 
 
 [xtrabackup]
-datadir=<%= scope.lookupvar('percona::params::datadir') %>
-target_dir=<%= scope.lookupvar('percona::params::targetdir') %>
+datadir=<%= scope.lookupvar('percona::datadir') %>
+target_dir=<%= scope.lookupvar('percona::targetdir') %>
