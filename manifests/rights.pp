@@ -42,12 +42,12 @@ define percona::rights (
     if ! defined(Mysql_user["${user}@${host}"]) {
       mysql_user { "${user}@${host}":
         password_hash => mysql_password($password),
-        require       => File["$config"],
+        require       => File[$config],
       }
     }
     mysql_grant { "${user}@${host}/${database}":
       privileges => $priv,
-      require    => File["$config"],
+      require    => File[$config],
     }
   }
 
