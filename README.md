@@ -52,14 +52,9 @@
 
 ### Unit testing
 
-Unit testing is done using [rspec-puppet]
-To test the module run the following:
+Unit testing is done using [rspec-puppet]:
 
-    # Install dependencies
-    bundle install
-
-    # Run tests
-    bundle exec rspec
+    # bundle && bundle exec rspec
 
 [apt module]: https://github.com/camptocamp/puppet-apt
 [rspec-puppet]: https://github.com/rodjek/rspec-puppet
