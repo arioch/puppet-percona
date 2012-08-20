@@ -74,6 +74,7 @@ class percona (
   $daemon_group     = $percona::params::daemon_group,
   $logdir           = $percona::params::logdir,
   $socket           = $percona::params::socket,
+  $user             = $percona::params::user,
   $datadir          = $percona::params::datadir,
   $targetdir        = $percona::params::targetdir,
   $errorlog         = $percona::params::errorlog,

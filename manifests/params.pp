@@ -18,6 +18,7 @@ class percona::params {
   $daemon_group      = 'mysql'
   $logdir            = '/var/log/percona'
   $socket            = '/var/lib/mysql/mysql.sock'
+  $user              = 'mysql'
   $datadir           = '/var/lib/mysql'
   $targetdir         = '/data/backups/mysql/'
   $errorlog          = '/var/log/mysqld.log'
