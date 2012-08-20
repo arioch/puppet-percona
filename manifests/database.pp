@@ -13,7 +13,7 @@ define percona::database (
   if $::mysql_uptime != 0 {
     mysql_database { $name:
       ensure  => $ensure,
-      require => File[$::percona::config],
+      require => File[$::percona::config_file],
     }
   }
 }
