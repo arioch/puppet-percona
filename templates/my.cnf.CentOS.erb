@@ -5,7 +5,7 @@
 [mysqld]
 datadir=<%= scope.lookupvar('percona::datadir') %>
 socket=<%= scope.lookupvar('percona::socket') %>
-user=<%= scope.lookupvar('percona::user') %>
+user=<%= scope.lookupvar('percona::daemon_user') %>
 innodb_file_per_table
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
