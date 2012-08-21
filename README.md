@@ -1,5 +1,9 @@
 # Puppet Percona
 
+## PuppetDoc
+
+Parsed PuppetDoc can be found [here](http://arioch.github.com/puppet-percona/).
+
 ## Requirements
 
 * Camptocamp [apt module]
