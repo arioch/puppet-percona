@@ -10,3 +10,7 @@ gem 'hiera', '>=0.3.0'
 gem 'hiera-puppet', '>=0.3.0'
 gem 'rspec-hiera-puppet', '>=0.3.0'
 
+gem 'guard'
+gem 'guard-shell', '>= 0.4.0'
+gem 'libnotify' if RUBY_PLATFORM.downcase.include?("linux")
+gem 'growl' if RUBY_PLATFORM.downcase.include?("darwin")
