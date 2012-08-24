@@ -48,9 +48,9 @@ class percona::params {
 
     /(?i:redhat|centos)/: {
       $pkg_version = $percona_version ? {
-        '5.1'      => '51',
-        '5.5'      => '55',
-        default    => regsubst($percona_version, '\.', '', 'G'),
+        '5.1'   => '51',
+        '5.5'   => '55',
+        default => regsubst($percona_version, '\.', '', 'G'),
       }
 
       $config_file = '/etc/my.cnf'

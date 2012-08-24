@@ -1,3 +1,6 @@
+# Define percona::user
+#
+#
 define percona::user (
   $password,
   $database,

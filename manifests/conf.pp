@@ -1,3 +1,6 @@
+# Class percona::conf
+#
+#
 define percona::conf (
   $content,
   $ensure = present
