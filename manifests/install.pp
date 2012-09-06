@@ -71,7 +71,6 @@ class percona::install {
 
   # Installation of the Percona server
   if $::percona::server {
-
     package { $pkg_server:
       ensure  => 'present',
       require => [
