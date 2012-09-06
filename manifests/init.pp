@@ -71,6 +71,7 @@ class percona (
   $datadir          = $percona::params::datadir,
   $errorlog         = $percona::params::errorlog,
   $logdir           = $percona::params::logdir,
+  $manage_repo      = $percona::params::manage_repo,
   $mysqlbufferpool  = $percona::params::mysqlbufferpool,
   $mysqlthreadcon   = $percona::params::mysqlthreadcon,
   $percona_version  = $percona::params::percona_version,
