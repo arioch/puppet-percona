@@ -1,1 +1,0 @@
-apt=https://github.com/camptocamp/puppet-apt.git
