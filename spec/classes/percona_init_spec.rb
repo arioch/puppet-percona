@@ -45,8 +45,8 @@ describe 'percona' do
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
-      should contain_package('percona-server-client-5.5').with_ensure('present')
-      should contain_package('percona-server-server-5.5').with_ensure('present')
+      should contain_package('percona-server-client-5.1').with_ensure('present')
+      should contain_package('percona-server-server-5.1').with_ensure('present')
     end
   end
 
@@ -62,8 +62,8 @@ describe 'percona' do
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
-      should contain_package('Percona-Server-client-55').with_ensure('present')
-      should contain_package('Percona-Server-server-55').with_ensure('present')
+      should contain_package('Percona-Server-client-51').with_ensure('present')
+      should contain_package('Percona-Server-server-51').with_ensure('present')
     end
   end
 
