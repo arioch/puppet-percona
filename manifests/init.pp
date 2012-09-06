@@ -76,9 +76,9 @@ class percona (
   $mysqlthreadcon   = $percona::params::mysqlthreadcon,
   $percona_version  = $percona::params::percona_version,
   $pidfile          = $percona::params::pidfile,
-  $pkg_client       = $percona::params::pkg_client,
-  $pkg_common       = $percona::params::pkg_common,
-  $pkg_server       = $percona::params::pkg_server,
+  #$pkg_client      = $percona::params::pkg_client, # no need
+  #$pkg_common      = $percona::params::pkg_common, # to expose
+  #$pkg_server      = $percona::params::pkg_server, # externally
   $pkg_version      = $percona::params::pkg_version,
   $server           = $percona::params::server,
   $service_enable   = $percona::params::service_enable,

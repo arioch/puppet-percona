@@ -27,7 +27,7 @@ class percona::params {
   $targetdir         = '/data/backups/mysql/'
 
   #$admin_password = hiera('mysql_password')
-  $admin_password = 'default' # quick fix for now, don't have hiera yet
+  $admin_password = 'default'
 
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
@@ -39,12 +39,6 @@ class percona::params {
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
       }
-      $pkg_client  = "percona-server-client-${pkg_version}"
-      $pkg_server  = "percona-server-server-${pkg_version}"
-      $pkg_common  = [
-        'percona-toolkit',
-        "percona-server-common-${pkg_version}"
-      ]
     }
 
     /(?i:redhat|centos)/: {
@@ -59,14 +53,6 @@ class percona::params {
         undef   => 'percona/my.cnf.RedHat.erb',
         default => $config_template,
       }
-
-      $pkg_client = "Percona-Server-client-${pkg_version}"
-      $pkg_server = "Percona-Server-server-${pkg_version}"
-      $pkg_common = [
-        "Percona-Server-shared-${pkg_version}",
-        'percona-toolkit'
-      ]
-
     }
 
     default: {
