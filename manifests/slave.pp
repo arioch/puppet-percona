@@ -1,6 +1,3 @@
-# slave.pp
-#
-#
 # == Definition: mysql::slave
 #
 # A basic helper used to create a slave, and a user.
@@ -10,7 +7,7 @@
 #    masterhost     => 'hostip',
 #    masterlog      => "masterlog",
 #    masteruser     => "Replication user",
-#}
+#  }
 #
 # Available parameters:
 #
@@ -21,10 +18,7 @@ define percona::slave (
   $masterpassword = hiera('masterpassword')
 ) {
 
-  if $masterhost == 'none' {
-
-  }
-  else{
+  if ! $masterhost == 'none' {
     exec { 'replication-user':
       command => template('percona/commands/repli-user-command.erb'),
       unless  => template('percona/commands/repli-user-unless.erb'),
@@ -33,6 +27,6 @@ define percona::slave (
       command => template('percona/commands/slave-setup-command.erb'),
       unless  => template('percona/commands/slave-setup-unless.erb'),
     }
-
   }
 }
+
