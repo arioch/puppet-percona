@@ -62,7 +62,7 @@ class percona::install {
   }
 
   # Installation of the Percona client
-  if $::percona::client {
+  if ($::percona::client or $::percona::server) {
     package { $pkg_client:
       ensure  => 'present',
       require => Package[$pkg_common],
