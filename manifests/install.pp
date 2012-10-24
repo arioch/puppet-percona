@@ -31,7 +31,7 @@ class percona::install {
         "Percona-Server-shared-${pkg_version}",
         'percona-toolkit'
       ]
-        
+
       # Installation of Percona's shared compatibility libraries
       case $percona_version {
         '5.5': {
