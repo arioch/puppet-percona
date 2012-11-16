@@ -13,9 +13,9 @@ define percona::conf (
 
   file { "${percona::config_dir}/conf.d/${name}.cnf":
     ensure  => $ensure,
-    owner   => $cona::config_user,
-    group   => $cona::config_group,
-    mode    => $cona::config_file_mode,
+    owner   => $config_user,
+    group   => $config_group,
+    mode    => $config_file_mode,
     content => $content,
     require => Class['percona::config'],
     notify  => Service[$service_name],
