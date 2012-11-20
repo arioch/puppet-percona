@@ -68,6 +68,8 @@ class percona (
   $config_user      = $percona::params::config_user,
   $config_group     = $percona::params::config_group,
   $config_template  = $percona::params::config_template,
+  $config_skip      = $percona::params::config_skip,
+  $config_replace   = $percona::params::config_replace,
   $server           = $percona::params::server,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
@@ -94,6 +96,7 @@ class percona (
   $mysqlthreadcon   = $percona::params::mysqlthreadcon,
 
   $mgmt_cnf         = $percona::params::mgmt_cnf,
+  ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
   $config_dir       = $percona::params::config_dir,
   $config_file      = $percona::params::config_file,

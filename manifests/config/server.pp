@@ -12,6 +12,10 @@ class percona::config::server {
   $config_file_mode = $::percona::config_file_mode
   $config_group     = $::percona::config_group
   $config_user      = $::percona::config_user
+
+  $config_skip      = $::percona::config_skip
+  $config_replace   = $::percona::config_replace
+
   $logdir           = $::percona::logdir
   $server           = $::percona::server
   $service_name     = $::percona::service_name
@@ -31,6 +35,16 @@ class percona::config::server {
     }
   }
 
+  # Use provided content or default/overriden template.
+  if $config_content {
+    $file_content = $config_content
+  }
+  else {
+    $file_content = template($template)
+  }
+
+
+  ## Required directories.
   if $config_dir {
     file { $config_dir:
       ensure => 'directory';
@@ -44,22 +58,13 @@ class percona::config::server {
     mode   => $config_dir_mode,
   }
 
-  ## Config file ##
-  file { $config_file:
-    ensure => 'present',
-    mode   => $config_file_mode,
+  if $config_skip != true {
+    file { $config_file:
+      ensure  => 'present',
+      mode    => $config_file_mode,
+      content => $file_content,
+      replace => $config_replace,
+    }
   }
 
-  # Use provided content or default/overriden template.
-  if $config_content {
-    File[$config_file] {
-      content => $config_content,
-    }
-  }
-  else {
-    File[$config_file] {
-      content => template($template),
-    }
-  }
 }
-
