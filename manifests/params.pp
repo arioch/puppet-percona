@@ -1,5 +1,28 @@
-# Class percona::params
+# == Class percona::params
 #
+# === Parameters:
+#
+# $manage_repo::            This module can optionally install apt/yum repos.
+#                           Disabled by default.
+#
+# === Provided parameters:
+#
+# $template::               Either the configured ($config_)template. Or our
+#                           default template which is OS specific.
+#
+# $config_dir::             Location of the folder which holds the mysql my.cnf
+#                           file for your operatingsystem.
+#
+# $config_file::            Location of the default mysql my.cnf config file
+#                           for your operatingsystem.
+#
+# === Examples:
+#
+# ==== Setting global and default configuration options.
+#
+# === Todo:
+#
+# TODO: Document parameters
 #
 class percona::params (
   $percona_version   = '5.1',

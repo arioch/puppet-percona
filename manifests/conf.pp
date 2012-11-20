@@ -1,5 +1,12 @@
-# Class percona::conf
+# == Class percona::conf
 #
+# Magage configuration snippets. in /etc/mysql/conf.d/
+# Currently only configured for debian...
+#
+# === Todo:
+#
+# TODO: Document / add example.
+# TODO: Check if the main template supports it or throw error.
 #
 define percona::conf (
   $content,

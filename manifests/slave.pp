@@ -2,14 +2,22 @@
 #
 # A basic helper used to create a slave, and a user.
 #
-# Example usage:
+# === Parameters:
+#
+#
+# === Example usage:
+#
 #  percona::slave { "whatever":
 #    masterhost     => 'hostip',
 #    masterlog      => "masterlog",
 #    masteruser     => "Replication user",
 #  }
 #
-# Available parameters:
+# === Todo:
+#
+# TODO: Document available parameters.
+# TODO: Validate provided params.
+#
 #
 define percona::slave (
   $ensure         = 'present',

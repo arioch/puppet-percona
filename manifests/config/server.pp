@@ -1,5 +1,8 @@
-# = Class: percona::config::server
+# == Class: percona::config::server
 #
+# === Todo:
+#
+# TODO: Document class.
 #
 class percona::config::server {
   $config_content   = $::percona::config_content
