@@ -77,6 +77,13 @@ class percona (
   $errorlog         = $percona::params::errorlog,
   $pidfile          = $percona::params::pidfile,
   $manage_repo      = $percona::params::manage_repo,
+
+  $pkg_client       = $percona::params::pkg_client,
+  $pkg_common       = $percona::params::pkg_common,
+  $pkg_server       = $percona::params::pkg_server,
+  $pkg_compat       = $percona::params::pkg_compat,
+  $pkg_version      = $percona::params::pkg_version,
+
   $mysqlbufferpool  = $percona::params::mysqlbufferpool,
   $mysqlthreadcon   = $percona::params::mysqlthreadcon,
 
