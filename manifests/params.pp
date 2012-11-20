@@ -2,6 +2,8 @@
 #
 # === Parameters:
 #
+# $mgmt_cnf::               Path to the my.cnf file to use for authentication.
+#
 # $manage_repo::            This module can optionally install apt/yum repos.
 #                           Disabled by default.
 #
@@ -60,6 +62,7 @@ class percona::params (
 
   $mysqlbufferpool   = '150M',
   $mysqlthreadcon    = '1',
+  $mgmt_cnf          = undef,
 
 ) {
 
