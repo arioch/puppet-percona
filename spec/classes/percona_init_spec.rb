@@ -1,10 +1,11 @@
-require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
+require 'spec_helper'
 
 describe 'percona' do
+
   describe "[Debian] percona class w/o parameters" do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
+    let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux' } }
 
     it do
       should create_class("percona")
@@ -53,7 +54,7 @@ describe 'percona' do
   describe "[CentOS] percona class with parameters, server true, no version specified" do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
+    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '10.0.0.1', } }
     let(:params) { {:client => 'true', :server => 'true' } }
 
     it do
@@ -87,7 +88,7 @@ describe 'percona' do
   describe "[CentOS] percona class with parameters, server true, version 5.1" do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
+    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
     let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.1' } }
 
     it do
@@ -121,7 +122,7 @@ describe 'percona' do
   describe "[CentOS] percona class with parameters, server true, version 5.5" do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
+    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
     let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.5' } }
 
     it do
@@ -150,7 +151,7 @@ describe 'percona' do
   describe "[CentOS] percona class with parameters, server false" do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
+    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
     let(:params) { {:client => 'true', :server => 'false' } }
 
     it do
