@@ -26,8 +26,6 @@ class percona::params (
   $mysqlbufferpool   = '150M',
   $mysqlthreadcon    = '1',
 
-  #$admin_password = hiera('mysql_password')
-  $admin_password = 'default'
 ) {
 
   case $::operatingsystem {
