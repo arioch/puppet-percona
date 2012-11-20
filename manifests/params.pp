@@ -5,6 +5,10 @@
 # $manage_repo::            This module can optionally install apt/yum repos.
 #                           Disabled by default.
 #
+# $service_restart::        Should we restart the server after changing the
+#                           configs? On some systems, this may be a bad thing.
+#                           Ex: Wait for a maintenance weekend.
+#
 # === Provided parameters:
 #
 # $template::               Either the configured ($config_)template. Or our
@@ -37,6 +41,7 @@ class percona::params (
   $service_enable    = true,
   $service_ensure    = 'running',
   $service_name      = 'mysql',
+  $service_restart   = true,
   $daemon_group      = 'mysql',
   $daemon_user       = 'mysql',
   $logdir            = '/var/log/percona',

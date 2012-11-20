@@ -16,12 +16,19 @@ class percona::config::server {
   $server           = $::percona::server
   $service_name     = $::percona::service_name
   $template         = $::percona::template
+  $service_restart  = $::percona::service_restart
 
   File {
     owner   => $config_user,
     group   => $config_group,
-    require => Class['percona::install'],
-    notify  => Service[$service_name],
+    require => [
+      Class['percona::install'],
+    ],
+  }
+  if $restart_service {
+    File {
+      notify => Service[$service_name],
+    }
   }
 
   if $config_dir {
