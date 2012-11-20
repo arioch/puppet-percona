@@ -39,6 +39,8 @@ class percona::params (
   $config_user       = 'root',
   $config_group      = 'root',
   $config_template   = undef,
+  $config_skip       = false,
+  $config_replace    = true,
   $server            = false,
   $service_enable    = true,
   $service_ensure    = 'running',
