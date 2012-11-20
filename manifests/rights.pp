@@ -36,8 +36,14 @@ define percona::rights (
   $host     = undef,
   $user     = undef,
   $hash     = undef,
-  $ensure   = 'present'
+  $ensure   = 'present',
+  $mgmt_cnf = undef
 ) {
+
+  $mycnf = $mgmt_cnf ? {
+    undef   => $::percona::mgmt_cnf,
+    default => $mgmt_cnf,
+  }
 
   ## Determine the default user/host to use derived from the resource name.
   case $name {
@@ -100,6 +106,7 @@ define percona::rights (
     mysql_user { "${_user}@${_host}":
       ensure        => 'present',
       password_hash => $pwhash,
+      mgmt_cnf      => $mycnf,
       require       => [
         Service[$::percona::service_name],
       ],
@@ -108,6 +115,7 @@ define percona::rights (
 
   mysql_grant { $grant_name:
     privileges => $priv,
+    mgmt_cnf   => $mycnf,
     require    => [
       Service[$::percona::service_name],
       Mysql_user["${_user}@${_host}"],

@@ -93,6 +93,7 @@ class percona (
   $mysqlbufferpool  = $percona::params::mysqlbufferpool,
   $mysqlthreadcon   = $percona::params::mysqlthreadcon,
 
+  $mgmt_cnf         = $percona::params::mgmt_cnf,
   $template         = $percona::params::template,
   $config_dir       = $percona::params::config_dir,
   $config_file      = $percona::params::config_file,
