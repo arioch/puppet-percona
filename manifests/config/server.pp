@@ -14,43 +14,41 @@ class percona::config::server {
   $service_name     = $::percona::service_name
   $template         = $::percona::template
 
-  if $server {
-    File {
-      owner   => $config_user,
-      group   => $config_group,
-      require => Class['percona::install'],
-      notify  => Service[$service_name],
-    }
+  File {
+    owner   => $config_user,
+    group   => $config_group,
+    require => Class['percona::install'],
+    notify  => Service[$service_name],
+  }
 
-    if $config_dir {
-      file { $config_dir:
-        ensure => 'directory';
-      }
+  if $config_dir {
+    file { $config_dir:
+      ensure => 'directory';
     }
+  }
 
-    file { $logdir :
-      ensure => 'directory',
-      owner  => $config_user,
-      group  => $config_group,
-      mode   => $config_dir_mode,
-    }
+  file { $logdir :
+    ensure => 'directory',
+    owner  => $config_user,
+    group  => $config_group,
+    mode   => $config_dir_mode,
+  }
 
-    ## Config file ##
-    file { $config_file:
-      ensure => 'present',
-      mode   => $config_file_mode,
-    }
+  ## Config file ##
+  file { $config_file:
+    ensure => 'present',
+    mode   => $config_file_mode,
+  }
 
-    # Use provided content or default/overriden template.
-    if $config_content {
-      File[$config_file] {
-        content => $config_content,
-      }
+  # Use provided content or default/overriden template.
+  if $config_content {
+    File[$config_file] {
+      content => $config_content,
     }
-    else {
-      File[$config_file] {
-        content => template($template),
-      }
+  }
+  else {
+    File[$config_file] {
+      content => template($template),
     }
   }
 }

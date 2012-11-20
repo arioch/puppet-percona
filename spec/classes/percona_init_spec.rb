@@ -13,7 +13,6 @@ describe 'percona' do
       should include_class('percona::preinstall')
       should include_class('percona::install')
       should include_class('percona::config')
-      should include_class('percona::config::client')
       should include_class('percona::service')
     end
   end
@@ -29,7 +28,6 @@ describe 'percona' do
       should include_class('percona::preinstall')
       should include_class('percona::install')
       should include_class('percona::config')
-      should include_class('percona::config::client')
       should include_class('percona::service')
     end
   end
@@ -42,7 +40,7 @@ describe 'percona' do
  
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -59,7 +57,8 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -76,7 +75,7 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -93,7 +92,7 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -110,7 +109,7 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -127,7 +126,7 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
       should include_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
@@ -143,8 +142,10 @@ describe 'percona' do
     let(:params) { {:client => 'true', :server => 'false' } }
 
     it do
-    should create_class("percona")
-    should include_class('percona::config::client')
+      should create_class("percona")
+      should include_class('percona::install')
+      should include_class('percona::config')
+      should_not include_class('percona::config::server')
     end
   end
 
@@ -156,7 +157,9 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config::client')
+      should include_class('percona::config')
+      should include_class('percona::install')
+      should_not include_class('percona::config::server')
     end
   end
 end
