@@ -1,9 +1,12 @@
-# = Definition: mysql::rights
+# == Definition: mysql::rights
 #
-#A basic helper used to create a user and
-#grant him some privileges on a database.
+# A basic helper used to create a user and
+# grant him some privileges on a database.
 #
-# == Parameters:
+# If you are using restricted admin accounts (with a password),
+# you will need to use the mgmt_cnf parameter.
+#
+# === Parameters:
 #
 # $ensure::   defaults to present
 #
@@ -18,7 +21,7 @@
 # $priv::     target privileges, defaults to "all"
 #             (values are the fieldnames from mysql.db table).
 #
-# == Example usage:
+# === Example usage:
 #  mysql::rights { 'example case':
 #    user     => 'foo',
 #    password => 'bar',

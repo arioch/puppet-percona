@@ -1,18 +1,23 @@
-# = Class: percona
+# == Class: percona
 #
 # This class installs percona
 #
-# == Parameters:
+# === Parameters:
 #
-# == Actions:
+# For a complete overview of the parameters you can use, take a look at
+# percona::params. Parameters documented here can not be set globally.
+#
+# === Actions:
 #  - Install PerconaDB
 #
-# == Requires:
-#     source: https://github.com/camptocamp/puppet-apt
+# === Requires:
 #
-# == Sample Usage:
+# * Debian only:
+#   - source: https://github.com/camptocamp/puppet-apt
 #
-# === This is the nodes.pp for the percona class
+# === Sample Usage:
+#
+# ==== This is the nodes.pp for the percona class
 #
 #     node hostname{
 #

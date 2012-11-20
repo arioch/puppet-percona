@@ -4,7 +4,7 @@
 #
 # == Parameters:
 #
-# $ensure:: defaults to present
+# $ensure::   Defaults to present
 #
 define percona::database (
   $ensure = present,
