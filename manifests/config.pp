@@ -3,9 +3,10 @@
 #
 class percona::config {
 
-  include percona::config::server
-  include percona::config::client
+  $server        = $::percona::server
 
-  Class['percona::config::server'] ->
-  Class['percona::config::client']
+  if $server {
+    include percona::config::server
+  }
+
 }
