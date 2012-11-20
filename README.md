@@ -6,25 +6,38 @@ Parsed PuppetDoc can be found [here](http://arioch.github.com/puppet-percona/).
 
 ## Requirements
 
+### Debian/Ubuntu
 * Camptocamp [apt module]
 
 ## Basic usage
 
 ### Client only
-    class { 'apt': }
-    class { 'percona': }
 
-    Class['apt'] ->
-    Class['percona']
+```puppet
+  class { 'apt': }
+  class { 'percona': }
+
+  Class['apt'] ->
+  Class['percona']
+```
 
 ### Client and server
+
+```puppet
     class { 'apt': }
-    class { 'percona': server => true; }
+    class { 'percona': server => true, }
 
     Class['apt'] ->
     Class['percona']
+```
 
 ### Configuration
+
+#### Using percona::conf
+
+```puppet
+
+    # This will create a file in the config_folder for each entry.
     percona::conf {
       'innodb_file_per_table': content => "[mysqld]\ninnodb_file_per_table";
       'query_cache_size':      content => "[mysqld]\nquery_cache_size = 32M";
@@ -38,21 +51,29 @@ Parsed PuppetDoc can be found [here](http://arioch.github.com/puppet-percona/).
         content => template ("percona/custom2.cnf.erb");
     }
 
+```
+
+### Databases and permissions.
+
+```puppet
+
     percona::database { 'dbfoo':
       ensure => present;
     }
 
-    percona::user { 'userfoo':
-      ensure   => present,
+    percona::rights {'userbar on dbfoo':
+      priv => 'select_priv',
+      host => 'localhost',
+      database => '*'
       password => 'default',
-      database => 'dbfoo';
     }
 
-    percona::user { 'userbar':
-      ensure   => present,
-      password => 'default',
-      database => 'dbfoo';
+    # You can ommit the user, host and database parameter if you use this format:
+    percona::rights {'user@localhost/dbname':
+      priv => 'all'
     }
+
+```
 
 ### Unit testing
 
