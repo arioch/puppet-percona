@@ -72,6 +72,7 @@ class percona (
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
   $service_name     = $percona::params::service_name,
+  $service_restart  = $percona::params::service_restart,
   $daemon_group     = $percona::params::daemon_group,
   $daemon_user      = $percona::params::daemon_user,
   $tmpdir           = $percona::params::tmpdir,
