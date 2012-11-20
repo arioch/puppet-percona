@@ -1,55 +1,48 @@
-require 'puppet/provider/package'
+Puppet::Type.type(:mysql_database).provide(:mysql) do
 
-Puppet::Type.type(:mysql_database).provide(:mysql,
-		:parent => Puppet::Provider::Package) do
+  desc "Use mysql as database."
 
-	desc "Use mysql as database."
-	commands :mysqladmin => '/usr/bin/mysqladmin'
-	commands :mysql => '/usr/bin/mysql'
+  defaultfor :kernel => 'Linux'
 
-	# retrieve the current set of mysql users
-	def self.instances
-		dbs = []
+  optional_commands :mysqladmin => 'mysqladmin'
+  optional_commands :mysql => 'mysql'
 
-		cmd = "#{command(:mysql)} mysql -NBe 'show databases'"
-		execpipe(cmd) do |process|
-			process.each do |line|
-				dbs << new( { :ensure => :present, :name => line.chomp } )
-			end
-		end
-		return dbs
-	end
+  def mysql_args(*args)
+    if @resource[:mgmt_cnf].is_a?(String)
+      args.insert(0, "--defaults-file=#{@resource[:mgmt_cnf]}")
+    end
+    args
+  end
 
-	def query
-		result = {
-			:name => @resource[:name],
-      :ensure => :absent
-		}
+  def self.instances
+    mysql(mysql_args('-NBe', "show databases")).split("\n").collect do |name|
+      new(:name => name)
+    end
+  end
 
-		cmd = "#{command(:mysql)} mysql -NBe 'show databases'"
-		execpipe(cmd) do |process|
-			process.each do |line|
-				if line.chomp.eql?(@resource[:name])
-					result[:ensure] = :present
-				end
-			end
-		end
-		result
-	end
+  def create
+    mysql(mysql_args('-NBe', "create database `#{@resource[:name]}` character set #{resource[:charset]}"))
+  end
 
-	def create
-		mysqladmin  "create", @resource[:name]
-	end
-	def destroy
-		mysqladmin "-f", "drop", @resource[:name]
-	end
+  def destroy
+    mysqladmin(mysql_args('-f', 'drop', @resource[:name]))
+  end
 
-	def exists?
-		if mysql("mysql", "-NBe", "show databases").match(/^#{@resource[:name]}$/)
-			true
-		else
-			false
-		end
-	end
+  def charset
+    mysql(mysql_args('-NBe', "show create database `#{resource[:name]}`")).match(/.*?(\S+)\s\*\//)[1]
+  end
+
+  def charset=(value)
+    mysql(mysql_args('-NBe', "alter database `#{resource[:name]}` CHARACTER SET #{value}"))
+  end
+
+
+  def exists?
+    begin
+      mysql(mysql_args('-NBe', "show databases")).match(/^#{@resource[:name]}$/)
+    rescue => e
+      debug(e.message)
+      return nil
+    end
+  end
 end
-

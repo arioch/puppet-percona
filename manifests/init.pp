@@ -1,18 +1,23 @@
-# = Class: percona
+# == Class: percona
 #
 # This class installs percona
 #
-# == Parameters:
+# === Parameters:
 #
-# == Actions:
+# For a complete overview of the parameters you can use, take a look at
+# percona::params. Parameters documented here can not be set globally.
+#
+# === Actions:
 #  - Install PerconaDB
 #
-# == Requires:
-#     source: https://github.com/camptocamp/puppet-apt
+# === Requires:
 #
-# == Sample Usage:
+# * Debian only:
+#   - source: https://github.com/camptocamp/puppet-apt
 #
-# === This is the nodes.pp for the percona class
+# === Sample Usage:
+#
+# ==== This is the nodes.pp for the percona class
 #
 #     node hostname{
 #
@@ -55,34 +60,47 @@
 #     }
 #
 class percona (
-  $admin_password   = $percona::params::admin_password,
+  $percona_version  = $percona::params::percona_version,
   $client           = $percona::params::client,
   $config_content   = $percona::params::config_content,
-  $config_dir       = $percona::params::config_dir,
   $config_dir_mode  = $percona::params::config_dir_mode,
-  $config_file      = $percona::params::config_file,
   $config_file_mode = $percona::params::config_file_mode,
+  $config_user      = $percona::params::config_user,
   $config_group     = $percona::params::config_group,
   $config_template  = $percona::params::config_template,
-  $config_user      = $percona::params::config_user,
-  $daemon_group     = $percona::params::daemon_group,
-  $daemon_user      = $percona::params::daemon_user,
-  $datadir          = $percona::params::datadir,
-  $errorlog         = $percona::params::errorlog,
-  $logdir           = $percona::params::logdir,
-  $manage_repo      = $percona::params::manage_repo,
-  $mysqlbufferpool  = $percona::params::mysqlbufferpool,
-  $mysqlthreadcon   = $percona::params::mysqlthreadcon,
-  $percona_version  = $percona::params::percona_version,
-  $pidfile          = $percona::params::pidfile,
-  $pkg_version      = $percona::params::pkg_version,
+  $config_skip      = $percona::params::config_skip,
+  $config_replace   = $percona::params::config_replace,
   $server           = $percona::params::server,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
   $service_name     = $percona::params::service_name,
+  $service_restart  = $percona::params::service_restart,
+  $daemon_group     = $percona::params::daemon_group,
+  $daemon_user      = $percona::params::daemon_user,
+  $tmpdir           = $percona::params::tmpdir,
+  $logdir           = $percona::params::logdir,
   $socket           = $percona::params::socket,
+  $datadir          = $percona::params::datadir,
   $targetdir        = $percona::params::targetdir,
+  $errorlog         = $percona::params::errorlog,
+  $pidfile          = $percona::params::pidfile,
+  $manage_repo      = $percona::params::manage_repo,
+
+  $pkg_client       = $percona::params::pkg_client,
+  $pkg_common       = $percona::params::pkg_common,
+  $pkg_server       = $percona::params::pkg_server,
+  $pkg_compat       = $percona::params::pkg_compat,
+  $pkg_version      = $percona::params::pkg_version,
+
+  $mysqlbufferpool  = $percona::params::mysqlbufferpool,
+  $mysqlthreadcon   = $percona::params::mysqlthreadcon,
+
+  $mgmt_cnf         = $percona::params::mgmt_cnf,
+  ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
+  $config_dir       = $percona::params::config_dir,
+  $config_file      = $percona::params::config_file,
+
 ) inherits percona::params {
 
   include percona::preinstall

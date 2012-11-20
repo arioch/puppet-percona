@@ -4,16 +4,29 @@
 #
 # == Parameters:
 #
-# $ensure:: defaults to present
+# $ensure::   Defaults to present
+#
+# $charset::  Character set to use when creating the database.
+#
+# $mgmt_cnf:: Management config file to use while creating
+#             the database. Defaults to undefined.
 #
 define percona::database (
-  $ensure = present,
+  $ensure,
+  $charset  = 'utf8',
+  $mgmt_cnf = undef
 ) {
 
-  if $::mysql_uptime != 0 {
-    mysql_database { $name:
-      ensure  => $ensure,
-      require => File[$::percona::config_file],
-    }
+  $mycnf = $mgmt_cnf ? {
+    undef   => $::percona::mgmt_cnf,
+    default => $mgmt_cnf,
   }
+
+  mysql_database { $name:
+    ensure   => $ensure,
+    charset  => $charset,
+    mgmt_cnf => $mycnf,
+    require  => Service[$::percona::service_name],
+  }
+
 }
