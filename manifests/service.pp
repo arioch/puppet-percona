@@ -1,5 +1,6 @@
-# Class: percona::service
+# == Class: percona::service
 #
+# Enabled the (mysql) service
 #
 class percona::service {
   $service_name   = $percona::service_name
@@ -10,7 +11,7 @@ class percona::service {
     service { $service_name:
       ensure  => $service_ensure,
       enable  => $service_enable,
-      require => Class['percona::config'],
+      require => Class['percona::config::server'],
     }
   }
 }

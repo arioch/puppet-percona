@@ -1,6 +1,7 @@
-require "#{File.join(File.dirname(__FILE__),'..','spec_helper.rb')}"
+require 'spec_helper'
 
 describe 'percona::params' do
+
   describe "[Debian] percona::params class" do
     let(:title) { 'percona::params' }
     let(:node) { 'percona' }
