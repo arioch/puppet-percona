@@ -23,6 +23,13 @@ class percona::params (
   $errorlog          = '/var/log/mysqld.log',
   $pidfile           = '/var/run/mysqld/mysqld.pid',
   $manage_repo       = false,
+
+  $pkg_client        = undef,
+  $pkg_server        = undef,
+  $pkg_common        = undef,
+  $pkg_compat        = undef,
+  $pkg_version       = undef,
+
   $mysqlbufferpool   = '150M',
   $mysqlthreadcon    = '1',
 
@@ -30,8 +37,6 @@ class percona::params (
 
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
-      $pkg_version = $percona_version
-
       $config_dir  = '/etc/mysql'
       $config_file = '/etc/mysql/my.cnf'
       $template    = $config_template ? {
@@ -41,12 +46,6 @@ class percona::params (
     }
 
     /(?i:redhat|centos)/: {
-      $pkg_version = $percona_version ? {
-        '5.1'   => '51',
-        '5.5'   => '55',
-        default => regsubst($percona_version, '\.', '', 'G'),
-      }
-
       $config_file = '/etc/my.cnf'
       $template    = $config_template ? {
         undef   => 'percona/my.cnf.RedHat.erb',

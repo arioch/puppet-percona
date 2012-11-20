@@ -9,25 +9,20 @@ class percona::install {
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
       $pkg_version = $percona_version
-      $pkg_client  = "percona-server-client-${pkg_version}"
-      $pkg_server  = "percona-server-server-${pkg_version}"
-      $pkg_common  = [
+      $pkg_client_default = "percona-server-client-${pkg_version}"
+      $pkg_server_default = "percona-server-server-${pkg_version}"
+      $pkg_common_default = [
         'percona-toolkit',
         "percona-server-common-${pkg_version}"
       ]
     }
 
     /(?i:redhat|centos)/: {
-      $pkg_version = $percona_version ? {
-        '5.1'   => '51',
-        '5.5'   => '55',
-        default => regsubst($percona_version, '\.', '', 'G'),
-      }
+      $pkg_version = regsubst($percona_version, '\.', '', 'G')
 
-      $pkg_client = "Percona-Server-client-${pkg_version}"
-      $pkg_server = "Percona-Server-server-${pkg_version}"
-      $pkg_compat = 'Percona-Server-shared-compat'
-      $pkg_common = [
+      $pkg_client_default = "Percona-Server-client-${pkg_version}"
+      $pkg_server_default = "Percona-Server-server-${pkg_version}"
+      $pkg_common_default = [
         "Percona-Server-shared-${pkg_version}",
         'percona-toolkit'
       ]
@@ -35,12 +30,16 @@ class percona::install {
       # Installation of Percona's shared compatibility libraries
       case $percona_version {
         '5.5': {
-          package { $pkg_compat:
-            ensure => 'present',
-            before => Package[$pkg_common];
+          $pkg_compat = $::percona::pkg_compat ? {
+            undef   => 'Percona-Server-shared-compat',
+            default => $::percona::pkg_compat,
           }
         }
         default: {
+          $pkg_compat = $::percona::pkg_compat ? {
+            undef   => 'Percona-SQL-shared-compat',
+            default => $::percona::pkg_compat,
+          }
         }
       }
     }
@@ -48,6 +47,19 @@ class percona::install {
     default: {
       fail('Operating system not supported yet.')
     }
+  }
+
+  $pkg_client = $::percona::pkg_client ? {
+    undef   => $pkg_client_default,
+    default => $::percona::pkg_client,
+  }
+  $pkg_server = $::percona::pkg_server ? {
+    undef   => $pkg_server_default,
+    default => $::percona::pkg_server,
+  }
+  $pkg_common = $::percona::pkg_common ? {
+    undef   => $pkg_common_default,
+    default => $::percona::pkg_common,
   }
 
   Package {
@@ -58,11 +70,18 @@ class percona::install {
 
   # Installation of Percona's shared libraries
   package { $pkg_common:
-    ensure => 'present';
+    ensure => 'present',
+  }
+
+  if $pkg_compat {
+    package {$pkg_compat:
+      ensure => 'present',
+      before => Package[$pkg_common],
+    }
   }
 
   # Installation of the Percona client
-  if ($::percona::client or $::percona::server) {
+  if ($client or $server) {
     package { $pkg_client:
       ensure  => 'present',
       require => Package[$pkg_common],
@@ -70,14 +89,15 @@ class percona::install {
   }
 
   # Installation of the Percona server
-  if $::percona::server {
+  if $server {
     package { $pkg_server:
       ensure  => 'present',
       require => [
         Package[$pkg_client],
-        Package[$pkg_common]
+        Package[$pkg_common],
       ],
     }
   }
+
 }
 
