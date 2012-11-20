@@ -36,7 +36,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
-    let(:params) { {:client => 'true', :server => 'true' } }
+    let(:params) { {:client => true, :server => true } }
  
     it do
       should create_class("percona")
@@ -53,7 +53,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '10.0.0.1', } }
-    let(:params) { {:client => 'true', :server => 'true' } }
+    let(:params) { {:client => true, :server => true } }
 
     it do
       should create_class("percona")
@@ -71,7 +71,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
-    let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.1' } }
+    let(:params) { {:client => true, :server => true, :percona_version => '5.1' } }
 
     it do
       should create_class("percona")
@@ -88,7 +88,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
-    let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.1' } }
+    let(:params) { {:client => true, :server => true, :percona_version => '5.1' } }
 
     it do
       should create_class("percona")
@@ -105,7 +105,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
-    let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.5' } }
+    let(:params) { {:client => true, :server => true, :percona_version => '5.5' } }
 
     it do
       should create_class("percona")
@@ -122,7 +122,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
-    let(:params) { {:client => 'true', :server => 'true', :percona_version => '5.5' } }
+    let(:params) { {:client => true, :server => true, :percona_version => '5.5' } }
 
     it do
       should create_class("percona")
@@ -139,7 +139,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
-    let(:params) { {:client => 'true', :server => 'false' } }
+    let(:params) { {:client => true, :server => false } }
 
     it do
       should create_class("percona")
@@ -153,7 +153,7 @@ describe 'percona' do
     let(:title) { 'percona' }
     let(:node) { 'percona' }
     let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux', :ipaddress => '127.0.0.1', } }
-    let(:params) { {:client => 'true', :server => 'false' } }
+    let(:params) { {:client => true, :server => false } }
 
     it do
       should create_class("percona")
