@@ -16,6 +16,11 @@
 #                           configs? On some systems, this may be a bad thing.
 #                           Ex: Wait for a maintenance weekend.
 #
+# $default_configuration::  A hash table containing specific options to set for
+#                           a percona version. It should be a hashtable with
+#                           for each percona version a sub-entry.
+#
+#
 # === Provided parameters:
 #
 # $template::               Either the configured ($config_)template. Or our
@@ -71,6 +76,11 @@ class percona::params (
 
   $mgmt_cnf          = undef,
 
+  $default_configuration  = {
+    '5.5'    => {},
+    '5.1'    => {},
+    'global' => {},
+  }
 ) {
 
   case $::operatingsystem {
