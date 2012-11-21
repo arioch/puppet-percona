@@ -20,10 +20,11 @@
 #
 #
 define percona::slave (
+  $masterhost     = undef,
+  $masterpassword = undef,
+  $masterlog      = undef,
+  $masteruser     = undef ,
   $ensure         = 'present',
-  $masterhost     = hiera('master_all'),
-  $masteruser     = hiera('master_user'),
-  $masterpassword = hiera('masterpassword')
 ) {
 
   if ! $masterhost == 'none' {
@@ -37,4 +38,3 @@ define percona::slave (
     }
   }
 }
-
