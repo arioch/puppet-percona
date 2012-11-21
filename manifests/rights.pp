@@ -1,4 +1,4 @@
-# == Definition: mysql::rights
+# == Definition: percona::rights
 #
 # A basic helper used to create a user and
 # grant him some privileges on a database.
@@ -21,13 +21,42 @@
 # $priv::     target privileges, defaults to "all"
 #             (values are the fieldnames from mysql.db table).
 #
+# === Format:
+#
+# You can ommit the user,host and optionally the database if you use
+# the following format for your resource name:
+#
+#   <user>@<hostmask>/<db_name>
+#   <user>@<hostmask>
+#
+#
+# === Privileges
+#
+#   You can get a list of available privileges you can use by running
+#   the following command:
+#
+#
+#
+#
 # === Example usage:
-#  mysql::rights { 'example case':
-#    user     => 'foo',
-#    password => 'bar',
-#    database => 'mydata',
-#    priv     => ['select_priv', 'update_priv'],
-# }
+#
+#   percona::rights { 'example case':
+#     user     => 'foo',
+#     password => 'bar',
+#     database => 'mydata',
+#     priv     => ['select_priv', 'update_priv'],
+#   }
+#
+#   percona::rights {'bar@10.%/mydata':
+#     hash => '*6C8989366EAF75BB670AD8EA7A7FC1176A95CEF4',
+#     priv => 'all',
+#   }
+#
+#   percona::rights {'monitor@localhost':
+#     database => '*',
+#     password => 'monitor',
+#     priv     => 'select_priv',
+#   }
 #
 define percona::rights (
   $priv,
