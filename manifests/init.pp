@@ -22,10 +22,6 @@
 #     node hostname{
 #
 #       # This is generic mysql stuff
-#       $mysqlbufferpool = '100M'
-#       $mysqlserverid   = "100"
-#       $mysqlthreadcon  = "1"
-#
 #
 #       class {
 #         'apt':;   # debian only
@@ -78,6 +74,7 @@ class percona (
   $service_restart  = $percona::params::service_restart,
   $daemon_group     = $percona::params::daemon_group,
   $daemon_user      = $percona::params::daemon_user,
+
   $tmpdir           = $percona::params::tmpdir,
   $logdir           = $percona::params::logdir,
   $socket           = $percona::params::socket,
@@ -92,9 +89,6 @@ class percona (
   $pkg_server       = $percona::params::pkg_server,
   $pkg_compat       = $percona::params::pkg_compat,
   $pkg_version      = $percona::params::pkg_version,
-
-  $mysqlbufferpool  = $percona::params::mysqlbufferpool,
-  $mysqlthreadcon   = $percona::params::mysqlthreadcon,
 
   $mgmt_cnf         = $percona::params::mgmt_cnf,
   ## These settings are defaulted distro specific ##
