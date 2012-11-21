@@ -71,8 +71,6 @@ class percona::config::server {
   }
   file { $logdir :
     ensure => 'directory',
-    owner  => $config_user,
-    group  => $config_group,
     mode   => $config_dir_mode,
   }
 

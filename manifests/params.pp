@@ -54,6 +54,7 @@ class percona::params (
   $service_restart   = true,
   $daemon_group      = 'mysql',
   $daemon_user       = 'mysql',
+  $tmpdir            = undef,
   $logdir            = '/var/log/percona',
   $socket            = '/var/lib/mysql/mysql.sock',
   $datadir           = '/var/lib/mysql',
@@ -68,8 +69,6 @@ class percona::params (
   $pkg_compat        = undef,
   $pkg_version       = undef,
 
-  $mysqlbufferpool   = '150M',
-  $mysqlthreadcon    = '1',
   $mgmt_cnf          = undef,
 
 ) {
