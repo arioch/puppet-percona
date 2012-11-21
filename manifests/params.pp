@@ -97,7 +97,7 @@ class percona::params (
     /(?i:redhat|centos)/: {
       $config_file = '/etc/my.cnf'
       $template    = $config_template ? {
-        undef   => 'percona/my.cnf.RedHat.erb',
+        undef   => 'percona/my.cnf.erb',
         default => $config_template,
       }
       $config_include_dir_default = undef
