@@ -91,6 +91,12 @@ class percona (
   $pkg_version      = $percona::params::pkg_version,
 
   $mgmt_cnf         = $percona::params::mgmt_cnf,
+
+  ## These options can NOT be defaulted in percona::params.
+  # They are specific for this server instance.
+  $configuration    = {},
+  $servername       = $::fqdn,
+
   ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
   $config_dir       = $percona::params::config_dir,
@@ -101,6 +107,29 @@ class percona (
   $config_includedir = $config_include_dir ? {
     undef   => $config_include_dir_default,
     default => $config_include_dir,
+  }
+
+
+  ## Translate settings in params in a hash.
+  $params = {
+    'global'                      => {
+      'mysqld/#-puppet-#servername'      => $::percona::servername,
+      'mysqld/#-puppet-#logdir'          => $::percona::logdir,
+      'mysqld/datadir'                   => $::percona::datadir,
+      'mysqld/socket'                    => $::percona::socket,
+      'mysqld/user'                      => $::percona::daemon_user,
+      'mysqld/innodb_log_group_home_dir' => $::percona::datadir,
+      'mysqld/log_bin'                   => "${::percona::datadir}/${::percona::servername}-bin",
+      'mysqld/relay_log'                 => "${::percona::datadir}/${::percona::servername}-relay",
+      'mysqld/slow_query_log_file'       => "${::percona::logdir}/${::percona::servername}-slow.log",
+      'mysqld/symbolic-links'            => '0',
+
+      'mysqld_safe/log-error'            => $::percona::errorlog,
+      'mysqld_safe/pid-file'             => $::percona::pidfile,
+
+      'xtrabackup/datadir'               => $::percona::datadir,
+      'xtrabackup/target_dir'            => $::percona::targetdir,
+    },
   }
 
   include percona::preinstall

@@ -37,6 +37,74 @@ class percona::config::server {
     }
   }
 
+  # Workaround for assigning an empty hash. Puppet doesn't know how to
+  # handle {} very well in certain places.
+  $empty_hash = {}
+
+
+  # Default configuration set in percona::params.
+  $default_configuration = $::percona::params::default_configuration
+
+  # Get the hash that is global (all versions).
+  if $default_configuration['global'] {
+    $default_global = $default_configuration['global']
+  } else {
+    $default_global = {}
+  }
+
+  # Get the hash for the version we are installing.
+  if $default_configuration[$version] {
+    $default_version = $default_configuration[$version]
+  } else {
+    $default_version = {}
+  }
+
+
+  # Configuration set on the percona class level.
+  $my_configuration = $configuration ? {
+    undef   => $empty_hash,
+    default => $configuration,
+  }
+
+  # A part of the configuration is created from various parameters that have
+  # been defined on percona::params or percona.
+  $params           = $::percona::params
+
+  # Globals
+  if $params['global'] {
+    $params_global = $params['global']
+  } else {
+    $params_global = {}
+  }
+  # Version specifics.
+  if $params[$version] {
+    $params_version = $params[$version]
+  } else {
+    $params_version = {}
+  }
+
+  # Special case. Only add this parameter if it has been set. We need to do
+  # this like this because we can not adjust the params hash after it has been
+  # defined.
+  if $::percona::tmpdir {
+    $tempdir = { 'tmpdir' => $::percona::tmpdir, }
+  } else {
+    $tempdir = {}
+  }
+
+  # these are all the hashes we are going to merge. The my_configuration is the
+  # most specific (its stuff WE have set) and others will be used as 'defaults'
+  $hashes = [
+    $default_version,
+    $default_global,
+    $params_version,
+    $params_global,
+    $tempdir,
+  ]
+
+  # One big hash to rule them all (and use in templates or augeas or ...)
+  $options = percona_hash_merge($my_configuration, $hashes)
+
   # Use provided content or default/overriden template.
   if $config_content {
     $file_content = $config_content
@@ -69,6 +137,7 @@ class percona::config::server {
       }
     }
   }
+
   file { $logdir :
     ensure => 'directory',
     mode   => $config_dir_mode,
