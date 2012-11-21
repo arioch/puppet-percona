@@ -12,6 +12,7 @@ class percona::config::server {
   $config_file_mode = $::percona::config_file_mode
   $config_group     = $::percona::config_group
   $config_user      = $::percona::config_user
+  $config_includedir = $::percona::config_includedir
 
   $config_skip      = $::percona::config_skip
   $config_replace   = $::percona::config_replace
@@ -21,6 +22,7 @@ class percona::config::server {
   $service_name     = $::percona::service_name
   $template         = $::percona::template
   $service_restart  = $::percona::service_restart
+
 
   File {
     owner   => $config_user,
@@ -43,14 +45,30 @@ class percona::config::server {
     $file_content = template($template)
   }
 
-
   ## Required directories.
+  # Only certain distros use a config_dir.
   if $config_dir {
     file { $config_dir:
       ensure => 'directory';
     }
   }
 
+
+  # We have a config_include_dir configured and it doesnt exist yet:
+  # try to create it.
+  if $config_includedir and ! (defined(File[$config_includedir])) {
+    file {$config_includedir:
+      ensure => 'directory',
+      mode   => $config_dir_mode,
+    }
+    # Little trick, if the include folder is a subfolder of config_dir, we will
+    # add a dependency on it :)
+    if regsubst($config_includedir, "^${config_dir}", '__MATCH__')  =~ /^__MATCH__/ {
+      File[$config_includedir] {
+        require => File[$config_dir],
+      }
+    }
+  }
   file { $logdir :
     ensure => 'directory',
     owner  => $config_user,
@@ -68,3 +86,4 @@ class percona::config::server {
   }
 
 }
+

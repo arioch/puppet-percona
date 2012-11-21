@@ -35,6 +35,11 @@ Parsed PuppetDoc can be found [here](http://arioch.github.com/puppet-percona/).
 
 #### Using percona::conf
 
+Before being able to use percona::conf, you should set the config_include_dir
+parameter. You can do this in percona::params or when calling percona.
+
+For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d/
+
 ```puppet
 
     # This will create a file in the config_folder for each entry.

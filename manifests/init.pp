@@ -70,6 +70,7 @@ class percona (
   $config_template  = $percona::params::config_template,
   $config_skip      = $percona::params::config_skip,
   $config_replace   = $percona::params::config_replace,
+  $config_include_dir = $::percona::params::config_include_dir,
   $server           = $percona::params::server,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
@@ -102,6 +103,11 @@ class percona (
   $config_file      = $percona::params::config_file,
 
 ) inherits percona::params {
+
+  $config_includedir = $config_include_dir ? {
+    undef   => $config_include_dir_default,
+    default => $config_include_dir,
+  }
 
   include percona::preinstall
   include percona::install
