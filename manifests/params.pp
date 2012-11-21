@@ -2,6 +2,11 @@
 #
 # === Parameters:
 #
+# $config_include_dir::     Folder to include using '!includedir' in the mysql
+#                           configuration folder. Defaults to /etc/mysql/conf.d
+#                           for debian. If overridden, we will attempt to
+#                           create it but the parent directory should exist.
+#
 # $mgmt_cnf::               Path to the my.cnf file to use for authentication.
 #
 # $manage_repo::            This module can optionally install apt/yum repos.
@@ -41,6 +46,7 @@ class percona::params (
   $config_template   = undef,
   $config_skip       = false,
   $config_replace    = true,
+  $config_include_dir = undef,
   $server            = false,
   $service_enable    = true,
   $service_ensure    = 'running',
@@ -76,6 +82,7 @@ class percona::params (
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
       }
+      $config_include_dir_default = "$config_dir/conf.d"
     }
 
     /(?i:redhat|centos)/: {
@@ -84,6 +91,7 @@ class percona::params (
         undef   => 'percona/my.cnf.RedHat.erb',
         default => $config_template,
       }
+      $config_include_dir_default = undef
     }
 
     default: {
