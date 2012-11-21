@@ -2,19 +2,19 @@ require 'spec_helper'
 
 describe 'percona::params' do
 
-  describe "[Debian] percona::params class" do
-    let(:title) { 'percona::params' }
-    let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'Debian', :kernel => 'Linux'} }
+  let(:title) { 'percona::params' }
+  let(:node) { 'percona' }
 
-    it { should create_class("percona::params") }
+  ['Debian','CentOS'].each do |operatingsystem|
+
+    describe "on #{operatingsystem}" do
+      let(:facts) { {:operatingsystem => operatingsystem, :kernel => 'Linux'} }
+
+      it "have been created" do
+        should create_class("percona::params")
+      end
+    end
   end
 
-  describe "[CentOS] percona::params class" do
-    let(:title) { 'percona::params' }
-    let(:node) { 'percona' }
-    let(:facts) { {:operatingsystem => 'CentOS', :kernel => 'Linux'} }
 
-    it { should create_class("percona::params") }
-  end
 end
