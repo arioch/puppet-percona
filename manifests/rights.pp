@@ -59,7 +59,7 @@
 #   }
 #
 define percona::rights (
-  $priv,
+  $priv     = "all",
   $password = undef,
   $database = undef,
   $host     = undef,
