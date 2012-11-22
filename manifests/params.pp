@@ -2,6 +2,11 @@
 #
 # === Parameters:
 #
+# $config_include_dir::     Folder to include using '!includedir' in the mysql
+#                           configuration folder. Defaults to /etc/mysql/conf.d
+#                           for debian. If overridden, we will attempt to
+#                           create it but the parent directory should exist.
+#
 # $mgmt_cnf::               Path to the my.cnf file to use for authentication.
 #
 # $manage_repo::            This module can optionally install apt/yum repos.
@@ -10,6 +15,11 @@
 # $service_restart::        Should we restart the server after changing the
 #                           configs? On some systems, this may be a bad thing.
 #                           Ex: Wait for a maintenance weekend.
+#
+# $default_configuration::  A hash table containing specific options to set for
+#                           a percona version. It should be a hashtable with
+#                           for each percona version a sub-entry.
+#
 #
 # === Provided parameters:
 #
@@ -41,6 +51,7 @@ class percona::params (
   $config_template   = undef,
   $config_skip       = false,
   $config_replace    = true,
+  $config_include_dir = undef,
   $server            = false,
   $service_enable    = true,
   $service_ensure    = 'running',
@@ -48,6 +59,7 @@ class percona::params (
   $service_restart   = true,
   $daemon_group      = 'mysql',
   $daemon_user       = 'mysql',
+  $tmpdir            = undef,
   $logdir            = '/var/log/percona',
   $socket            = '/var/lib/mysql/mysql.sock',
   $datadir           = '/var/lib/mysql',
@@ -62,10 +74,13 @@ class percona::params (
   $pkg_compat        = undef,
   $pkg_version       = undef,
 
-  $mysqlbufferpool   = '150M',
-  $mysqlthreadcon    = '1',
   $mgmt_cnf          = undef,
 
+  $default_configuration  = {
+    '5.5'    => {},
+    '5.1'    => {},
+    'global' => {},
+  }
 ) {
 
   case $::operatingsystem {
@@ -76,14 +91,16 @@ class percona::params (
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
       }
+      $config_include_dir_default = "$config_dir/conf.d"
     }
 
     /(?i:redhat|centos)/: {
       $config_file = '/etc/my.cnf'
       $template    = $config_template ? {
-        undef   => 'percona/my.cnf.RedHat.erb',
+        undef   => 'percona/my.cnf.erb',
         default => $config_template,
       }
+      $config_include_dir_default = undef
     }
 
     default: {

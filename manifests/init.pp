@@ -22,10 +22,6 @@
 #     node hostname{
 #
 #       # This is generic mysql stuff
-#       $mysqlbufferpool = '100M'
-#       $mysqlserverid   = "100"
-#       $mysqlthreadcon  = "1"
-#
 #
 #       class {
 #         'apt':;   # debian only
@@ -70,6 +66,7 @@ class percona (
   $config_template  = $percona::params::config_template,
   $config_skip      = $percona::params::config_skip,
   $config_replace   = $percona::params::config_replace,
+  $config_include_dir = $::percona::params::config_include_dir,
   $server           = $percona::params::server,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
@@ -77,6 +74,7 @@ class percona (
   $service_restart  = $percona::params::service_restart,
   $daemon_group     = $percona::params::daemon_group,
   $daemon_user      = $percona::params::daemon_user,
+
   $tmpdir           = $percona::params::tmpdir,
   $logdir           = $percona::params::logdir,
   $socket           = $percona::params::socket,
@@ -92,16 +90,47 @@ class percona (
   $pkg_compat       = $percona::params::pkg_compat,
   $pkg_version      = $percona::params::pkg_version,
 
-  $mysqlbufferpool  = $percona::params::mysqlbufferpool,
-  $mysqlthreadcon   = $percona::params::mysqlthreadcon,
-
   $mgmt_cnf         = $percona::params::mgmt_cnf,
+
+  ## These options can NOT be defaulted in percona::params.
+  # They are specific for this server instance.
+  $configuration    = {},
+  $servername       = $::fqdn,
+
   ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
   $config_dir       = $percona::params::config_dir,
   $config_file      = $percona::params::config_file,
 
 ) inherits percona::params {
+
+  $config_includedir = $config_include_dir ? {
+    undef   => $config_include_dir_default,
+    default => $config_include_dir,
+  }
+
+
+  ## Translate settings in params in a hash.
+  $params = {
+    'global'                      => {
+      'mysqld/#-puppet-#servername'      => $::percona::servername,
+      'mysqld/#-puppet-#logdir'          => $::percona::logdir,
+      'mysqld/datadir'                   => $::percona::datadir,
+      'mysqld/socket'                    => $::percona::socket,
+      'mysqld/user'                      => $::percona::daemon_user,
+      'mysqld/innodb_log_group_home_dir' => $::percona::datadir,
+      'mysqld/log_bin'                   => "${::percona::datadir}/${::percona::servername}-bin",
+      'mysqld/relay_log'                 => "${::percona::datadir}/${::percona::servername}-relay",
+      'mysqld/slow_query_log_file'       => "${::percona::logdir}/${::percona::servername}-slow.log",
+      'mysqld/symbolic-links'            => '0',
+
+      'mysqld_safe/log-error'            => $::percona::errorlog,
+      'mysqld_safe/pid-file'             => $::percona::pidfile,
+
+      'xtrabackup/datadir'               => $::percona::datadir,
+      'xtrabackup/target_dir'            => $::percona::targetdir,
+    },
+  }
 
   include percona::preinstall
   include percona::install
