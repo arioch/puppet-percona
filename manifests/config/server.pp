@@ -24,6 +24,8 @@ class percona::config::server {
   $template         = $::percona::template
   $version          = $::percona::percona_version
 
+  $configuration         = $::percona::configuration
+  $default_configuration = $::percona::params::default_configuration
 
   File {
     owner   => $config_user,
@@ -42,9 +44,6 @@ class percona::config::server {
   # handle {} very well in certain places.
   $empty_hash = {}
 
-
-  # Default configuration set in percona::params.
-  $default_configuration = $::percona::params::default_configuration
 
   # Get the hash that is global (all versions).
   if $default_configuration['global'] {
