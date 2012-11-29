@@ -17,6 +17,7 @@ class percona::config::server {
   $config_replace   = $::percona::config_replace
   $config_skip      = $::percona::config_skip
 
+  $configuration    = $::percona::configuration
   $logdir           = $::percona::logdir
   $server           = $::percona::server
   $service_name     = $::percona::service_name
