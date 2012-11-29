@@ -11,17 +11,18 @@ class percona::config::server {
   $config_file       = $::percona::config_file
   $config_file_mode  = $::percona::config_file_mode
   $config_group      = $::percona::config_group
-  $config_user       = $::percona::config_user
   $config_includedir = $::percona::config_includedir
+  $config_user       = $::percona::config_user
 
-  $config_skip      = $::percona::config_skip
   $config_replace   = $::percona::config_replace
+  $config_skip      = $::percona::config_skip
 
   $logdir           = $::percona::logdir
   $server           = $::percona::server
   $service_name     = $::percona::service_name
-  $template         = $::percona::template
   $service_restart  = $::percona::service_restart
+  $template         = $::percona::template
+  $version          = $::percona::percona_version
 
 
   File {
