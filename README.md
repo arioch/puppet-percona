@@ -5,7 +5,9 @@ Install a percona (mysql) server and manage users/rights/databases.
 ## Requirements
 
 ### Debian/Ubuntu
-* Camptocamp [apt module]
+* [Camptocamp apt module]
+or 
+* [Puppetlabs apt module]
 
 ## Basic usage
 
@@ -180,6 +182,7 @@ Unit testing is done using [rspec-puppet]:
 
     # bundle && bundle exec rspec
 
-[apt module]: https://github.com/camptocamp/puppet-apt
+[camptocamp apt module]: https://github.com/camptocamp/puppet-apt
+[Puppetlabs apt module]: https://github.com/puppetlabs/puppetlabs-apt
 [rspec-puppet]: https://github.com/rodjek/rspec-puppet
 

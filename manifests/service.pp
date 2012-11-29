@@ -11,7 +11,10 @@ class percona::service {
     service { $service_name:
       ensure  => $service_ensure,
       enable  => $service_enable,
-      require => Class['percona::config::server'],
+      require => [
+        Class['percona::config::server'],
+        Class['percona::install'],
+      ]
     }
   }
 }
