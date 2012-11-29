@@ -91,7 +91,7 @@ class percona::params (
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
       }
-      $config_include_dir_default = "$config_dir/conf.d"
+      $config_include_dir_default = "${config_dir}/conf.d"
     }
 
     /(?i:redhat|centos)/: {

@@ -1,3 +1,5 @@
+# == Class: percona::repo::apt
+#
 class percona::repo::apt {
 
 
