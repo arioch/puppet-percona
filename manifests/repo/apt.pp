@@ -2,7 +2,6 @@
 #
 class percona::repo::apt {
 
-
   apt::key { 'CD2EFD2A':
     ensure => present,
     notify => Exec['percona::repo::apt-get update'],
@@ -12,6 +11,7 @@ class percona::repo::apt {
     ensure  => present,
     source  => false,
     content => template ("${module_name}/repo/sources.list.erb"),
+    require => Apt::Key['CD2EFD2A'],
     notify  => Exec['percona::repo::apt-get update'],
   }
 
