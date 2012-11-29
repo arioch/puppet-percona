@@ -14,6 +14,7 @@ class percona::repo::apt {
       source  => false,
       content => template ("${module_name}/repo/sources.list.erb"),
       notify  => Exec['percona::repo::apt-get update'],
+      require => Apt::Key['CD2EFD2A'],
     }
   }
 
@@ -26,6 +27,7 @@ class percona::repo::apt {
       release     => $::lsbdistcodename,
       repos       => 'main',
       notify      => Exec['percona::repo::apt-get update'],
+      require     => Apt::Key['CD2EFD2A'],
     }
   }
 
