@@ -31,7 +31,7 @@ class percona::config::server {
       Class['percona::install'],
     ],
   }
-  if $restart_service {
+  if $service_restart {
     File {
       notify => Service[$service_name],
     }
