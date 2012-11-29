@@ -11,10 +11,22 @@ class percona::install {
       $pkg_version = $percona_version
       $pkg_client_default = "percona-server-client-${pkg_version}"
       $pkg_server_default = "percona-server-server-${pkg_version}"
-      $pkg_common_default = [
-        'percona-toolkit',
-        "percona-server-common-${pkg_version}"
-      ]
+
+      case $percona_version {
+        '5.1': {
+          $pkg_common_default = [
+            'percona-toolkit',
+            "percona-server-common"
+          ]
+        }
+
+        default: {
+          $pkg_common_default = [
+            'percona-toolkit',
+            "percona-server-common-${pkg_version}"
+          ]
+        }
+      }
     }
 
     /(?i:redhat|centos)/: {
