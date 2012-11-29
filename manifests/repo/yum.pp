@@ -1,3 +1,5 @@
+# == Class: percona::repo::yum
+#
 class percona::repo::yum {
 
   yumrepo { 'percona':

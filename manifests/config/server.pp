@@ -5,23 +5,24 @@
 # TODO: Document class.
 #
 class percona::config::server {
-  $config_content   = $::percona::config_content
-  $config_dir       = $::percona::config_dir
-  $config_dir_mode  = $::percona::config_dir_mode
-  $config_file      = $::percona::config_file
-  $config_file_mode = $::percona::config_file_mode
-  $config_group     = $::percona::config_group
-  $config_user      = $::percona::config_user
+  $config_content    = $::percona::config_content
+  $config_dir        = $::percona::config_dir
+  $config_dir_mode   = $::percona::config_dir_mode
+  $config_file       = $::percona::config_file
+  $config_file_mode  = $::percona::config_file_mode
+  $config_group      = $::percona::config_group
   $config_includedir = $::percona::config_includedir
+  $config_user       = $::percona::config_user
 
-  $config_skip      = $::percona::config_skip
   $config_replace   = $::percona::config_replace
+  $config_skip      = $::percona::config_skip
 
   $logdir           = $::percona::logdir
   $server           = $::percona::server
   $service_name     = $::percona::service_name
-  $template         = $::percona::template
   $service_restart  = $::percona::service_restart
+  $template         = $::percona::template
+  $version          = $::percona::percona_version
 
 
   File {
@@ -31,7 +32,7 @@ class percona::config::server {
       Class['percona::install'],
     ],
   }
-  if $restart_service {
+  if $service_restart {
     File {
       notify => Service[$service_name],
     }
