@@ -1,3 +1,0 @@
-node percona {
-  include percona
-}
