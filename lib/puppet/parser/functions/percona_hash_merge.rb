@@ -77,17 +77,6 @@ module Puppet::Parser::Functions
 EODOC
   ) do |args|
 
-    # Helper function. If a more global hash has a value
-    # that we do not have, add it. By working like this,
-    # the first arguments override hashes after them.
-    def recursive_merge(me, other)
-      other.each do |k,v|
-        if ! me.include?(k)
-          me[k] = v
-        end
-      end
-    end
-
     args = [args] unless args.is_a?(Array)
     args.flatten!
 
@@ -136,7 +125,11 @@ EODOC
 
     ## Merge them here ;)
     args.each do |hash|
-      recursive_merge(result_hash,hash)
+      hash.each do |k,v|
+        if ! result_hash.include?(k)
+          result_hash[k] = v
+        end
+      end
     end
 
     result_hash
