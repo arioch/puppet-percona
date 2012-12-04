@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'the mysql_password function' do
 
-  let(:scope) { Puppet::Parser::Scope.new }
+  let(:scope) { PuppetlabsSpec::PuppetInternals.scope }
 
   it 'should exist' do
     Puppet::Parser::Functions.function('mysql_password').should == "function_mysql_password"
