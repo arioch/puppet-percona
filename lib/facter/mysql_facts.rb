@@ -40,7 +40,7 @@ def create_mysqld_fact_mysqldhelp(factname, varname)
     confine :kernel => :linux
     setcode do
       if @the_config_settings == nil
-        @the_config_settings = %x{/usr/sbin/mysqld --help --verbose --log-bin=/dev/null 2>/dev/null}
+        @the_config_settings = %x{/usr/sbin/mysqld --help --verbose --pid-file=/tmp/facter-mysqld-dummy.pid --log-bin=/dev/null 2>/dev/null}
       end
       re = Regexp.new("^#{varname}\\s+([^ ]+)$")
       if @the_config_settings.match re
