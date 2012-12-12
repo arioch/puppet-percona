@@ -1,23 +1,216 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Puppet-percona by arioch</title>
 
-<!--
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Puppet-percona</h1>
+        <p>Puppet module for Percona.</p>
 
-    RDoc Documentation
+        <p class="view"><a href="https://github.com/arioch/puppet-percona">View the Project on GitHub <small>arioch/puppet-percona</small></a></p>
 
-  -->
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <title>RDoc Documentation</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-</head>
-<frameset cols="20%, 80%">
-    <frameset rows="30%,70%">
-        <frame src="doc/fr_modules_index.html"  title="All Modules" />
-        <frame src="doc/fr_class_index.html" name="classes" title="Classes & Defines" />
-    </frameset>
-    <frame src="doc/classes/__site__.html" name="docwin" />
-</frameset>
+
+        <ul>
+          <li><a href="https://github.com/arioch/puppet-percona/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/arioch/puppet-percona/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/arioch/puppet-percona">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Puppet Percona</h1>
+
+<p>Install a percona (mysql) server and manage users/rights/databases.</p>
+
+<h2>Requirements</h2>
+
+<h3>Debian/Ubuntu</h3>
+
+<ul>
+<li>
+<a href="https://github.com/camptocamp/puppet-apt">Camptocamp apt module</a>
+or </li>
+<li><a href="https://github.com/puppetlabs/puppetlabs-apt">Puppetlabs apt module</a></li>
+</ul><h2>Basic usage</h2>
+
+<h3>Client only</h3>
+
+<div class="highlight"><pre>  <span class="nc">class</span> <span class="p">{</span> <span class="s1">'apt'</span><span class="p">:</span> <span class="p">}</span>
+  <span class="nc">class</span> <span class="p">{</span> <span class="s1">'percona'</span><span class="p">:</span> <span class="p">}</span>
+
+  <span class="nc">Class</span><span class="p">[</span><span class="s1">'apt'</span><span class="p">]</span> <span class="err">-&gt;</span>
+  <span class="ss">Class</span><span class="err">[</span><span class="s1">'percona'</span><span class="p">]</span>
+</pre></div>
+
+<h3>Client and server</h3>
+
+<div class="highlight"><pre>    <span class="nc">class</span> <span class="p">{</span> <span class="s1">'apt'</span><span class="p">:</span> <span class="p">}</span>
+    <span class="nc">class</span> <span class="p">{</span> <span class="s1">'percona'</span><span class="p">:</span> <span class="nt">server</span> <span class="p">=&gt;</span> <span class="ss">true</span><span class="p">,</span> <span class="p">}</span>
+
+    <span class="nc">Class</span><span class="p">[</span><span class="s1">'apt'</span><span class="p">]</span> <span class="err">-&gt;</span>
+    <span class="ss">Class</span><span class="err">[</span><span class="s1">'percona'</span><span class="p">]</span>
+</pre></div>
+
+<h3>Configuration</h3>
+
+<h4>Using percona hashes</h4>
+
+<p>To make sure we allow maximal flexibility while using this module, you can now
+specify my.cnf options using a hash. You can do so in 2 different places:</p>
+
+<p>You can specify the default_configuration parameter on percona::params and/or
+you can specify the configuration parameter on percona.
+Why can you use 2 different places?</p>
+
+<p>You can use percona::params to set options globally over your complete
+infrastructure and all hosts connected to it. You can do so by defining it
+outside the scope of your node (a defaults.pp or a class that is included on
+every node, ...). Then, you could overwrite these global options for each
+server specifically when you define the percona resource.</p>
+
+<p>Not enough possibilities? Store your configuration in hiera and directly
+use the hash returned by the hiera function and pass it through. This allows
+you to specify the configuration of your server on pretty much any level
+you want.</p>
+
+<p>How do these hashes look like? The (nested) hash you pass to percona::params
+should look like this:</p>
+
+<div class="highlight"><pre>
+    <span class="nv">$hash</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">'5.1'</span>    <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="s1">'mysqld/option'</span> <span class="p">=&gt;</span> <span class="s1">'5.1 specific value'</span><span class="p">,</span>
+      <span class="p">},</span>
+      <span class="s1">'5.5'</span>    <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="s1">'mysqld/option'</span>  <span class="p">=&gt;</span> <span class="s1">'5.5 specific value'</span><span class="p">,</span>
+        <span class="s1">'mysqld/option2'</span> <span class="p">=&gt;</span> <span class="s1">'only exists in 5.5'</span>
+      <span class="p">},</span>
+      <span class="s1">'global'</span> <span class="p">=&gt;</span> <span class="p">{</span>
+        <span class="s1">'mysqld/global'</span>     <span class="p">=&gt;</span> <span class="s1">'global option that works for any percona version'</span><span class="p">,</span>
+        <span class="s1">'xtrabackup/global'</span> <span class="p">=&gt;</span> <span class="s1">'global option in the xtrabackup section'</span>
+      <span class="p">},</span>
+    <span class="p">}</span>
+    <span class="nc">class</span> <span class="p">{</span><span class="s1">'apache::params'</span><span class="p">:</span>
+      <span class="nt">default_configuration</span> <span class="p">=&gt;</span> <span class="nv">$hash</span><span class="p">,</span>
+    <span class="p">}</span>
+
+</pre></div>
+
+<p>For options that get passed to percona using the configuration parameter, you
+do not need to nest the parameters since you will have picked the percona
+version to use at this point.</p>
+
+<div class="highlight"><pre>
+  <span class="nv">$configuration</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'mysqld/option'</span> <span class="p">=&gt;</span> <span class="s1">'something'</span><span class="p">,</span>
+    <span class="s1">'mysqld/option2'</span> <span class="p">=&gt;</span> <span class="p">{</span> <span class="s1">'ensure'</span> <span class="p">=&gt;</span> <span class="s1">'absent'</span> <span class="p">},</span>
+  <span class="p">}</span>
+  <span class="nc">class</span> <span class="p">{</span><span class="s1">'percona'</span><span class="p">:</span>
+    <span class="nt">percona_version</span> <span class="p">=&gt;</span> <span class="s1">'5.5'</span><span class="p">,</span>
+    <span class="nt">configuration</span>   <span class="p">=&gt;</span> <span class="nv">$configuration</span><span class="p">,</span>
+  <span class="p">}</span>
+
+
+</pre></div>
+
+<hr><p>For more information on the structures you can use, please see the docs of the
+percona_hash_merge() function.</p>
+
+<p>An example hiera.yaml file:</p>
+
+<div class="highlight"><pre>
+<span class="l-Scalar-Plain">percona_config_global</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">5.5</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">character-set-server</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
+
+  <span class="l-Scalar-Plain">5.1</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">default-character-set</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
+
+  <span class="l-Scalar-Plain">global</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">thread_concurrency</span><span class="p-Indicator">:</span> <span class="err">%</span><span class="p-Indicator">{</span><span class="nv">processorcount</span><span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">default-storage-engine</span><span class="p-Indicator">:</span> <span class="s">'InnoDB'</span>
+
+</pre></div>
+
+<p>and in your manifests</p>
+
+<div class="highlight"><pre>
+  <span class="nc">class</span> <span class="p">{</span><span class="s1">'percona::params'</span><span class="p">:</span>
+    <span class="nt">default_configuration</span> <span class="p">=&gt;</span> <span class="nf">hiera</span><span class="p">(</span><span class="s1">'percona_config_global'</span><span class="p">,</span> <span class="ss">undef</span><span class="p">),</span>
+  <span class="p">}</span>
+
+  <span class="kn">include</span> <span class="nc">percona</span>
+
+</pre></div>
+
+<h4>Using percona::conf</h4>
+
+<p>Before being able to use percona::conf, you should set the config_include_dir
+parameter. You can do this in percona::params or when calling percona.</p>
+
+<p>For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d/</p>
+
+<div class="highlight"><pre>
+<span class="c-Singleline">    # This will create a file in the config_folder for each entry.</span>
+    <span class="nc">percona::conf</span> <span class="p">{</span>
+      <span class="s1">'innodb_file_per_table'</span><span class="p">:</span> <span class="nt">content</span> <span class="p">=&gt;</span> <span class="s2">"[mysqld]</span><span class="se">\n</span><span class="s2">innodb_file_per_table"</span><span class="p">;</span>
+      <span class="s1">'query_cache_size'</span><span class="p">:</span>      <span class="nt">content</span> <span class="p">=&gt;</span> <span class="s2">"[mysqld]</span><span class="se">\n</span><span class="s2">query_cache_size = 32M"</span><span class="p">;</span>
+      <span class="s1">'table_open_cache'</span><span class="p">:</span>      <span class="nt">content</span> <span class="p">=&gt;</span> <span class="s2">"[mysqld]</span><span class="se">\n</span><span class="s2">table_open_cache = 768"</span><span class="p">;</span>
+
+      <span class="s1">'foo'</span><span class="p">:</span>
+        <span class="nt">ensure</span>  <span class="p">=&gt;</span> <span class="ss">present</span><span class="p">,</span>
+        <span class="nt">content</span> <span class="p">=&gt;</span> <span class="ss">template</span> <span class="err">(</span><span class="s2">"percona/custom1.cnf.erb"</span><span class="err">);</span>
+      <span class="s1">'bar'</span><span class="p">:</span>
+        <span class="nt">ensure</span>  <span class="p">=&gt;</span> <span class="ss">absent</span><span class="p">,</span>
+        <span class="nt">content</span> <span class="p">=&gt;</span> <span class="ss">template</span> <span class="err">(</span><span class="s2">"percona/custom2.cnf.erb"</span><span class="err">);</span>
+    <span class="p">}</span>
+
+</pre></div>
+
+<h3>Databases and permissions.</h3>
+
+<div class="highlight"><pre>
+    <span class="nc">percona::database</span> <span class="p">{</span> <span class="s1">'dbfoo'</span><span class="p">:</span>
+      <span class="nt">ensure</span> <span class="p">=&gt;</span> <span class="ss">present</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nc">percona::rights</span> <span class="p">{</span><span class="s1">'userbar on dbfoo'</span><span class="p">:</span>
+      <span class="nt">priv</span> <span class="p">=&gt;</span> <span class="s1">'select_priv'</span><span class="p">,</span>
+      <span class="nt">host</span> <span class="p">=&gt;</span> <span class="s1">'localhost'</span><span class="p">,</span>
+      <span class="nt">database</span> <span class="p">=&gt;</span> <span class="s1">'*'</span>
+      <span class="nt">password</span> <span class="p">=&gt;</span> <span class="s1">'default'</span><span class="p">,</span>
+    <span class="p">}</span><span class="c-Singleline"></span>
+
+<span class="c-Singleline">    # You can ommit the user, host and database parameter if you use this format:</span>
+    <span class="nc">percona::rights</span> <span class="p">{</span><span class="s1">'user@localhost/dbname'</span><span class="p">:</span>
+      <span class="nt">priv</span> <span class="p">=&gt;</span> <span class="s1">'all'</span>
+    <span class="p">}</span>
+
+</pre></div>
+
+<h3>Unit testing</h3>
+
+<p>Unit testing is done using <a href="https://github.com/rodjek/rspec-puppet">rspec-puppet</a>:</p>
+
+<pre><code># bundle &amp;&amp; bundle exec rspec
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/arioch">arioch</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
 </html>
