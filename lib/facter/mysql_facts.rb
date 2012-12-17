@@ -126,7 +126,8 @@ end
 
 if File.exists?('/usr/sbin/mysqld')
   create_mysqld_fact_mysqldhelp('mysqld_tmpdir', 'tmpdir')
-  create_mysqld_fact_mysqldhelp('mysqld_pidfile', 'pid-file')
+  # This fact has been removed due to issue #3. It does not provide correct information
+  # create_mysqld_fact_mysqldhelp('mysqld_pidfile', 'pid-file')
   create_mysqld_fact_mysqldhelp('mysqld_socket', 'socket')
   create_mysqld_fact_mysqldhelp('mysqld_server_id', 'server-id')
   create_mysqld_fact_mysqldhelp('mysqld_ssl', 'ssl')
