@@ -4,7 +4,6 @@
 ### Template source:  'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet::Node::Environment.current[:modulepath].gsub(':','|')}"),"") %>'
 <%= scope.function_percona_hash_print([options]) %>
 
-
-<% if defined?(config_includer) and config_includer != :undef -%>
-!includedir <%= config_includer %>
+<% if defined?(@config_includedir) and @config_includedir != :undef -%>
+!includedir <%= @config_includedir %>
 <% end -%>

@@ -40,7 +40,7 @@ def create_mysqld_fact_mysqldhelp(factname, varname)
     confine :kernel => :linux
     setcode do
       if @the_config_settings == nil
-        @the_config_settings = %x{/usr/sbin/mysqld --help --verbose --log-bin=/dev/null 2>/dev/null}
+        @the_config_settings = %x{/usr/sbin/mysqld --help --verbose --pid-file=/tmp/facter-mysqld-dummy.pid --log-bin=/dev/null 2>/dev/null}
       end
       re = Regexp.new("^#{varname}\\s+([^ ]+)$")
       if @the_config_settings.match re
@@ -126,7 +126,8 @@ end
 
 if File.exists?('/usr/sbin/mysqld')
   create_mysqld_fact_mysqldhelp('mysqld_tmpdir', 'tmpdir')
-  create_mysqld_fact_mysqldhelp('mysqld_pidfile', 'pid-file')
+  # This fact has been removed due to issue #3. It does not provide correct information
+  # create_mysqld_fact_mysqldhelp('mysqld_pidfile', 'pid-file')
   create_mysqld_fact_mysqldhelp('mysqld_socket', 'socket')
   create_mysqld_fact_mysqldhelp('mysqld_server_id', 'server-id')
   create_mysqld_fact_mysqldhelp('mysqld_ssl', 'ssl')
