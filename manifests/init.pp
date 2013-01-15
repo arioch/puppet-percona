@@ -72,6 +72,8 @@ class percona (
   $config_include_dir = $::percona::params::config_include_dir,
   $server           = $percona::params::server,
   $cluster          = $percona::params::cluster,
+  $cluster_index    = $percona::params::cluster_index,
+  $cluster_wsrep_lib = $percona::params::cluster_wsrep_lib,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
   $service_name     = $percona::params::service_name,
