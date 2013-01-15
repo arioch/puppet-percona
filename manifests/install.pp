@@ -16,14 +16,14 @@ class percona::install {
         '5.1': {
           $pkg_common_default = [
             'percona-toolkit',
-            "percona-server-common"
+            'percona-server-common',
           ]
         }
 
         default: {
           $pkg_common_default = [
             'percona-toolkit',
-            "percona-server-common-${pkg_version}"
+            "percona-server-common-${pkg_version}",
           ]
         }
       }
