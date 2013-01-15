@@ -1,4 +1,4 @@
-# = Definition: mysql::rights
+# = Definition: percona::database
 #
 # A basic helper used to create a database.
 #
