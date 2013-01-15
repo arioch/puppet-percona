@@ -71,9 +71,14 @@ class percona (
   $config_replace   = $percona::params::config_replace,
   $config_include_dir = $::percona::params::config_include_dir,
   $server           = $percona::params::server,
-  $cluster          = $percona::params::cluster,
-  $cluster_index    = $percona::params::cluster_index,
-  $cluster_wsrep_lib = $percona::params::cluster_wsrep_lib,
+  $cluster          = $percona::cluster::cluster,
+  $cluster_index    = $percona::cluster::cluster_index,
+  $cluster_address   = $percona::cluster::cluster_address,
+  $cluster_node_name = $percona::cluster::cluster_node_name,
+  $cluster_name      = $percona::cluster::cluster_name,
+  $cluster_slave_threads = $percona::cluster::cluster_slave_threads,
+  $cluster_sst_method = $percona::cluster::cluster_sst_method,
+  $cluster_wsrep_lib = $percona::cluster::cluster_wsrep_lib,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
   $service_name     = $percona::params::service_name,
@@ -110,15 +115,21 @@ class percona (
 
 ) inherits percona::params {
 
+  include percona::cluster
+
   $config_includedir = $config_include_dir ? {
     undef   => $config_include_dir_default,
     default => $config_include_dir,
   }
 
-  if ( $cluster and !$server ) {
-    fail("Percona cluster without server!")
+  if ( $cluster ) {
+    if ( !$server ) {
+      fail("Percona cluster without server!")
+    }
+    if ( !$cluster_index or !cluster_name or !$cluster_node_name ) {
+      fail("Percona cluster needs cluster_index (my.cnf:server_id), cluster_name (my.cnf:wsrep_cluster_name), and cluster_node_name (my.cnf:wsrep_node_name)!")
+    }
   }
-
 
   ## Translate settings in params in a hash.
   $params = {
@@ -140,6 +151,7 @@ class percona (
       'xtrabackup/datadir'               => $::percona::datadir,
       'xtrabackup/target_dir'            => $::percona::targetdir,
     },
+    'cluster'                            => $::percona::cluster::params,
   }
 
   include percona::preinstall
@@ -147,6 +159,8 @@ class percona (
   include percona::config
   include percona::service
 
+  Class['percona::cluster'] ->
+  Class['percona'] ->
   Class['percona::preinstall'] ->
   Class['percona::install'] ->
   Class['percona::config'] ->

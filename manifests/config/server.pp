@@ -83,6 +83,13 @@ class percona::config::server {
     $params_version = {}
   }
 
+  # Cluster specifics.
+  if $params['cluster'] {
+    $params_cluster = $params['cluster']
+  } else {
+    $params_version = {}
+  }
+
   # Special case. Only add this parameter if it has been set. We need to do
   # this like this because we can not adjust the params hash after it has been
   # defined.
@@ -99,6 +106,7 @@ class percona::config::server {
     $default_global,
     $params_version,
     $params_global,
+    $params_cluster,
     $tempdir,
   ]
 
