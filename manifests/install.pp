@@ -13,13 +13,32 @@ class percona::install {
       if $cluster {
         $pkg_client_default = "percona-xtradb-cluster-client-${pkg_version}"
         $pkg_server_default = "percona-xtradb-cluster-server-${pkg_version}"
+        $pkg_common_default = [
+          'percona-toolkit',
+          "percona-xtradb-cluster-common-${pkg_version}",
+        ]
       }
       else {
         $pkg_client_default = "percona-server-client-${pkg_version}"
         $pkg_server_default = "percona-server-server-${pkg_version}"
-      }
 
-      $pkg_common_default = [ 'percona-toolkit' ]
+	# Avoid dependency resolution on version change
+        case $percona_version {
+          '5.1': {
+            $pkg_common_default = [
+              'percona-toolkit',
+              "percona-server-common"
+            ]
+          }
+
+          default: {
+            $pkg_common_default = [
+              'percona-toolkit',
+              "percona-server-common-${pkg_version}"
+            ]
+          }
+        }
+      }
     }
 
     /(?i:redhat|centos)/: {
@@ -28,13 +47,27 @@ class percona::install {
       if $cluster {
         $pkg_client_default = "Percona-XtraDB-Cluster-client"
         $pkg_server_default = "Percona-XtraDB-Cluster-server"
+	# XXX:  Doesn't actually work because undef and false evaulate the same
+	if ( $pkg_compat != undef ) {
+          $pkg_common_default = [
+            'percona-toolkit',
+            'Percona-XtraDB-Cluster-shared',
+          ]
+        }
+        else {
+          $pkg_common_default = [
+            'percona-toolkit',
+          ]
+        }
       }
       else {
         $pkg_client_default = "Percona-Server-client-${pkg_version}"
         $pkg_server_default = "Percona-Server-server-${pkg_version}"
+        $pkg_common_default = [
+          "Percona-Server-shared-${pkg_version}",
+          'percona-toolkit'
+        ]
       }
-
-      $pkg_common_default = [ 'percona-toolkit' ]
 
       # Installation of Percona's shared compatibility libraries
       case $percona_version {
