@@ -68,6 +68,7 @@ class percona (
   $config_replace   = $percona::params::config_replace,
   $config_include_dir = $::percona::params::config_include_dir,
   $server           = $percona::params::server,
+  $cluster          = $percona::params::cluster,
   $service_enable   = $percona::params::service_enable,
   $service_ensure   = $percona::params::service_ensure,
   $service_name     = $percona::params::service_name,
@@ -107,6 +108,10 @@ class percona (
   $config_includedir = $config_include_dir ? {
     undef   => $config_include_dir_default,
     default => $config_include_dir,
+  }
+
+  if ( $cluster and !$server ) {
+    fail("Percona cluster without server!")
   }
 
 

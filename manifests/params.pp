@@ -41,7 +41,7 @@
 # TODO: Document parameters
 #
 class percona::params (
-  $percona_version   = '5.1',
+  $percona_version   = '5.5',
   $client            = true,
   $config_content    = undef,
   $config_dir_mode   = '0750',
@@ -53,6 +53,7 @@ class percona::params (
   $config_replace    = true,
   $config_include_dir = undef,
   $server            = false,
+  $cluster           = false,
   $service_enable    = true,
   $service_ensure    = 'running',
   $service_name      = 'mysql',

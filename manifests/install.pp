@@ -4,40 +4,37 @@
 class percona::install {
   $server           = $::percona::server
   $client           = $::percona::client
+  $cluster          = $::percona::cluster
   $percona_version  = $::percona::percona_version
 
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
       $pkg_version = $percona_version
-      $pkg_client_default = "percona-server-client-${pkg_version}"
-      $pkg_server_default = "percona-server-server-${pkg_version}"
-
-      case $percona_version {
-        '5.1': {
-          $pkg_common_default = [
-            'percona-toolkit',
-            "percona-server-common"
-          ]
-        }
-
-        default: {
-          $pkg_common_default = [
-            'percona-toolkit',
-            "percona-server-common-${pkg_version}"
-          ]
-        }
+      if $cluster {
+        $pkg_client_default = "percona-xtradb-cluster-client-${pkg_version}"
+        $pkg_server_default = "percona-xtradb-cluster-server-${pkg_version}"
       }
+      else {
+        $pkg_client_default = "percona-server-client-${pkg_version}"
+        $pkg_server_default = "percona-server-server-${pkg_version}"
+      }
+
+      $pkg_common_default = [ 'percona-toolkit' ]
     }
 
     /(?i:redhat|centos)/: {
       $pkg_version = regsubst($percona_version, '\.', '', 'G')
 
-      $pkg_client_default = "Percona-Server-client-${pkg_version}"
-      $pkg_server_default = "Percona-Server-server-${pkg_version}"
-      $pkg_common_default = [
-        "Percona-Server-shared-${pkg_version}",
-        'percona-toolkit'
-      ]
+      if $cluster {
+        $pkg_client_default = "Percona-XtraDB-Cluster-client"
+        $pkg_server_default = "Percona-XtraDB-Cluster-server"
+      }
+      else {
+        $pkg_client_default = "Percona-Server-client-${pkg_version}"
+        $pkg_server_default = "Percona-Server-server-${pkg_version}"
+      }
+
+      $pkg_common_default = [ 'percona-toolkit' ]
 
       # Installation of Percona's shared compatibility libraries
       case $percona_version {
