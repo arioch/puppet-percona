@@ -107,6 +107,7 @@ class percona (
 
 ) inherits percona::params {
 
+  $config_include_dir_default = $::percona::params::config_include_dir_default
   $config_includedir = $config_include_dir ? {
     undef   => $config_include_dir_default,
     default => $config_include_dir,
