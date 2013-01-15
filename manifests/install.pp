@@ -23,21 +23,13 @@ class percona::install {
         $pkg_server_default = "percona-server-server-${pkg_version}"
 
 	# Avoid dependency resolution on version change
-        case $percona_version {
-          '5.1': {
-            $pkg_common_default = [
-              'percona-toolkit',
-              "percona-server-common"
-            ]
-          }
-
-          default: {
-            $pkg_common_default = [
-              'percona-toolkit',
-              "percona-server-common-${pkg_version}"
-            ]
-          }
-        }
+        $pkg_common_default = [
+          'percona-toolkit',
+          $percona_version ? {
+            '5.1'   => 'percona-server-common',
+            default => "percona-server-common-${pkg_version}",
+          },
+        ]
       }
     }
 
@@ -65,7 +57,7 @@ class percona::install {
         $pkg_server_default = "Percona-Server-server-${pkg_version}"
         $pkg_common_default = [
           "Percona-Server-shared-${pkg_version}",
-          'percona-toolkit'
+          'percona-toolkit',
         ]
       }
 
