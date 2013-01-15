@@ -57,6 +57,13 @@ class percona::params (
   $service_ensure    = 'running',
   $service_name      = 'mysql',
   $service_restart   = true,
+  $cluster           = false,
+  $cluster_index     = undef,
+  $cluster_address   = 'gcomm://',
+  $cluster_node_name = $fqdn,
+  $cluster_name      = undef,
+  $cluster_slave_threads = 2,
+  $cluster_sst_method = 'xtrabackup',
   $daemon_group      = 'mysql',
   $daemon_user       = 'mysql',
   $tmpdir            = undef,
@@ -106,5 +113,10 @@ class percona::params (
     default: {
       fail('Operating system not supported yet.')
     }
+  }
+
+  $cluster_wsrep_provider = $::hardwareisa ? {
+    'x86_64' => '/usr/lib64/libgalera_smm.so',
+    default  => '/usr/lib/libgalera_smm.so',
   }
 }

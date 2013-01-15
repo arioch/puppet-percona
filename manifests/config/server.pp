@@ -87,7 +87,7 @@ class percona::config::server {
   if $params['cluster'] {
     $params_cluster = $params['cluster']
   } else {
-    $params_version = {}
+    $params_cluster = {}
   }
 
   # Special case. Only add this parameter if it has been set. We need to do
