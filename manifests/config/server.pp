@@ -129,13 +129,6 @@ class percona::config::server {
       ensure => 'directory',
       mode   => $config_dir_mode,
     }
-    # Little trick, if the include folder is a subfolder of config_dir, we will
-    # add a dependency on it :)
-    if regsubst($config_includedir, "^${config_dir}", '__MATCH__')  =~ /^__MATCH__/ {
-      File[$config_includedir] {
-        require => File[$config_dir],
-      }
-    }
   }
 
   file { $logdir :

@@ -41,19 +41,22 @@
 #         user     => 'repl',
 #         password => 'repl',
 #         database => ['%'],
-#         priv     => ['slav_priv'],
+#         priv     => ['Repl_slave_priv'],
 #         host     => '$hostname',
 #       }
 #
-#       ## This must be run on the slave nodes:
-#       percona::slave { "whatever":
-#         masterhost        => "hostip",
-#         masterlog         => "masterlog",
-#         masteruser        => "Replication user",
-#         masterpassword    => "Repication password",
-#         masterlogposition => "Masterlogposition",
-#       }
-#     }
+#
+#   THIS IS CURRENTLY NOT IMPLEMENTED!!!
+#   #
+#   #    ## This must be run on the slave nodes:
+#   #    percona::slave { "whatever":
+#   #      masterhost        => "hostip",
+#   #      masterlog         => "masterlog",
+#   #      masteruser        => "Replication user",
+#   #      masterpassword    => "Repication password",
+#   #      masterlogposition => "Masterlogposition",
+#   #    }
+#   #  }
 #
 class percona (
   $percona_version  = $percona::params::percona_version,
