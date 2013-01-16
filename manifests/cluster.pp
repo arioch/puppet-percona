@@ -22,6 +22,7 @@ class percona::cluster {
       'mysqld/wsrep_slave_threads'      => $percona::cluster_slave_threads,
       'mysqld/wsrep_sst_method'         => $percona::cluster_sst_method,
       'mysqld/wsrep_provider'           => $percona::cluster_wsrep_provider,
+      'mysqld/wsrep_sst_auth'           => "${percona::cluster_replication_user}:${percona::cluster_replication_password}",
       'mysqld/innodb_autoinc_lock_mode' => '2',
     }
   }

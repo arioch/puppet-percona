@@ -62,6 +62,8 @@ class percona::params (
   $cluster_address   = 'gcomm://',
   $cluster_node_name = $fqdn,
   $cluster_name      = undef,
+  $cluster_replication_user = undef,
+  $cluster_replication_password = undef,
   $cluster_slave_threads = 2,
   $cluster_sst_method = 'xtrabackup',
   $daemon_group      = 'mysql',

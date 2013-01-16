@@ -76,6 +76,8 @@ class percona (
   $cluster_address   = $percona::params::cluster_address,
   $cluster_node_name = $percona::params::cluster_node_name,
   $cluster_name      = $percona::params::cluster_name,
+  $cluster_replication_user = $percona::params::cluster_replication_user,
+  $cluster_replication_password = $percona::params::cluster_replication_password,
   $cluster_slave_threads = $percona::params::cluster_slave_threads,
   $cluster_sst_method = $percona::params::cluster_sst_method,
   $cluster_wsrep_provider = $percona::params::cluster_wsrep_provider,
@@ -127,6 +129,9 @@ class percona (
     }
     if ( !$cluster_index or !cluster_name or !$cluster_node_name ) {
       fail("Percona cluster needs cluster_index (my.cnf:server_id), cluster_name (my.cnf:wsrep_cluster_name), and cluster_node_name (my.cnf:wsrep_node_name)!")
+    }
+    if ( !$cluster_replication_user or !$cluster_replication_password ) {
+      fail("Percona cluster needs cluster_replication_user and cluster_replication_password (my.cnf:wsrep_sst_auth=user:password)!")
     }
   }
 
