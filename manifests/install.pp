@@ -39,18 +39,11 @@ class percona::install {
       if $cluster {
         $pkg_client_default = "Percona-XtraDB-Cluster-client"
         $pkg_server_default = "Percona-XtraDB-Cluster-server"
-	# XXX:  Doesn't actually work because undef and false evaulate the same
-	if ( $pkg_compat != undef ) {
-          $pkg_common_default = [
-            'percona-toolkit',
-            'Percona-XtraDB-Cluster-shared',
-          ]
-        }
-        else {
-          $pkg_common_default = [
-            'percona-toolkit',
-          ]
-        }
+	# The Percona-Compat packages break clusteing.
+        $pkg_common_default = [
+          'percona-toolkit',
+          'Percona-XtraDB-Cluster-shared',
+        ]
       }
       else {
         $pkg_client_default = "Percona-Server-client-${pkg_version}"
@@ -62,17 +55,19 @@ class percona::install {
       }
 
       # Installation of Percona's shared compatibility libraries
-      case $percona_version {
-        '5.5': {
-          $pkg_compat = $::percona::pkg_compat ? {
-            undef   => 'Percona-Server-shared-compat',
-            default => $::percona::pkg_compat,
+      if ( ! $cluster ) {
+        case $percona_version {
+          '5.5': {
+            $pkg_compat = $::percona::pkg_compat ? {
+              undef   => 'Percona-Server-shared-compat',
+              default => $::percona::pkg_compat,
+            }
           }
-        }
-        default: {
-          $pkg_compat = $::percona::pkg_compat ? {
-            undef   => 'Percona-SQL-shared-compat',
-            default => $::percona::pkg_compat,
+          default: {
+            $pkg_compat = $::percona::pkg_compat ? {
+              undef   => 'Percona-SQL-shared-compat',
+              default => $::percona::pkg_compat,
+            }
           }
         }
       }
