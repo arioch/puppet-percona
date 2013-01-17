@@ -72,7 +72,7 @@ should look like this:
         'xtrabackup/global' => 'global option in the xtrabackup section'
       },
     }
-    class {'apache::params':
+    class {'percona::params':
       default_configuration => $hash,
     }
 
