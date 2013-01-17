@@ -9,6 +9,7 @@ class percona::service {
 
   if $::percona::server {
     service { $service_name:
+      alias   => 'mysql',
       ensure  => $service_ensure,
       enable  => $service_enable,
       require => [
