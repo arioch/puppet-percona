@@ -12,7 +12,7 @@
 #             the database. Defaults to undefined.
 #
 define percona::database (
-  $ensure,
+  $ensure   = 'present',
   $charset  = 'utf8',
   $mgmt_cnf = undef
 ) {
