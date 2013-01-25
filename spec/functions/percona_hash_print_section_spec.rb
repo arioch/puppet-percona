@@ -75,4 +75,13 @@ c = bar"
     scope.function_percona_hash_print_section([hash,section]).should == ""
   end
 
+  it 'should repeat keys with an array as value' do
+    hash = {
+      'key' => {:value => ['one','two'], :ensure => 'present', :key => 'key', :section => 'mysqld', },
+    }
+    section = 'mysqld'
+    scope.function_percona_hash_print_section([hash,section]).should == "key = one
+key = two"
+  end
+
 end
