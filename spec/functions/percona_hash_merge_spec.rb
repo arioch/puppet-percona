@@ -12,7 +12,10 @@ describe 'the percona_hash_merge function' do
 
   it 'should throw an error on invalid types' do
     lambda {
-      scope.function_percona_hash_merge([{ 'bogus' => ['fail']}])
+      class T
+      end
+
+      scope.function_percona_hash_merge([{ 'bogus' => T.new}])
     }.should(raise_error(Puppet::ParseError))
   end
 
@@ -37,6 +40,12 @@ describe 'the percona_hash_merge function' do
   it 'should accept numbers as values' do
     lambda {
       scope.function_percona_hash_merge([{'value' => 1 }])
+    }.should_not(raise_error(Puppet::ParseError))
+  end
+
+  it 'should accept arrays as values' do
+    lambda {
+      scope.function_percona_hash_merge([{'value' => ['foo','bar']}])
     }.should_not(raise_error(Puppet::ParseError))
   end
 
@@ -87,14 +96,14 @@ describe 'the percona_hash_merge function' do
     }
 
     hash = {
-      'extra'    => { :value  => 'param', },
+      'extra'    => { :value  => ['param'], },
       'override' => { :value  => 'overridden', },
       'be-gone'  => { :ensure => 'absent', },
     }
 
     merged =  {
       'in'       => { :value => 'default',    :ensure => 'present', :section => 'mysqld', :key => 'in', },
-      'extra'    => { :value => 'param',      :ensure => 'present', :section => 'mysqld', :key => 'extra', },
+      'extra'    => { :value => ['param'],    :ensure => 'present', :section => 'mysqld', :key => 'extra', },
       'override' => { :value => 'overridden', :ensure => 'present', :section => 'mysqld', :key => 'override', },
       'be-gone'  => { :value => :undef,       :ensure => 'absent',  :section => 'mysqld', :key => 'be-gone',},
     }

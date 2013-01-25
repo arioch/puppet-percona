@@ -72,7 +72,9 @@ module Puppet::Parser::Functions
 
     create_resources('percona::augeas', $merged)
 
-
+  Note: When specifying an array as a value, you could think that the array
+        would also be merged, this is NOT the case. An array behaves like a
+        string would, the value gets overridden completely.
 
 EODOC
   ) do |args|
@@ -104,7 +106,7 @@ EODOC
           hashkey = hashkey.merge({ :value => :undef, :ensure => value,})
 
         # Handle Strings, Integers, Booleans and undefined.
-        elsif value.is_a?(String) or value.is_a?(Integer) or [true, false, :undef].include?(value)
+        elsif value.is_a?(String) or value.is_a?(Integer) or [true, false, :undef].include?(value) or value.is_a?(Array)
           hashkey = hashkey.merge({ :value => value, :ensure => 'present', })
 
         # If its a hash, we presume it already has proper parameters defined.
@@ -113,7 +115,7 @@ EODOC
 
         # Anything else is not allowed.
         else
-          raise(Puppet::ParseError, 'percona_hash_merge(): Values should be strings, numbers, :undef or hashes.')
+          raise(Puppet::ParseError, 'percona_hash_merge(): Values should be strings, numbers, :undef, arrays or hashes.')
         end
 
         hash[key] = keyset_default.merge(hashkey)
