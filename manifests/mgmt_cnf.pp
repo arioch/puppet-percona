@@ -7,11 +7,6 @@
 #
 # We support the mysql and mysqladmin command in this config file.
 #
-# To ensure this file is available before creating any other resources,
-# use the following statement:
-#
-# Percona::Mgmt_cnf<| |> -> Percona::Database<| |> -> Percona::Rights<| |>
-#
 # === Parameters:
 #
 # $name::     Path to the my.cnf file to create.
@@ -42,5 +37,7 @@ define percona::mgmt_cnf (
     mode    => $mode,
     content => template("${module_name}/mgmt_cnf.erb"),
   }
+
+  Percona::Mgmt_cnf<| |> -> Percona::Rights<| |> -> Percona::Database<| |>
 
 }

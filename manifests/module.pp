@@ -5,6 +5,6 @@
 class percona::module {
 
   $id = 'unifiedpost-puppet-percona'
-  $version = '1.1.0'
+  $version = '1.1.1'
 
 }
