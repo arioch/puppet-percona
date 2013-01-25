@@ -60,7 +60,7 @@ define percona::adminpass (
   # Ensure that we have the proper ordering.
   Service['mysql'] ->             # start mysql
   Percona::Adminpass<| |> ->      # set the password if needed
-  Percona::Mgmt_cnf<| user == $user |> -> # create any mgmt_cnf files we have defined.
+  Percona::Mgmt_cnf<| |> -> # create any mgmt_cnf files we have defined.
   Percona::Database<| |> ->       # create databases
   Percona::Rights<| |>            # and setup users/rights.
 
