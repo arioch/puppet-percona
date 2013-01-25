@@ -37,6 +37,8 @@ module Puppet::Parser::Functions
       if element[:section] == section and element[:ensure] == 'present'
         if element[:value] == :undef
           result << "#{element[:key]}"
+        elsif element[:value].is_a?(Array)
+          result += element[:value].map {|v| "#{element[:key]} = #{v}" }
         else
           result << "#{element[:key]} = #{element[:value]}"
         end
