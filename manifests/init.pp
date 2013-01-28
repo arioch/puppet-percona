@@ -103,7 +103,7 @@ class percona (
   ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
   $config_dir       = $percona::params::config_dir,
-  $config_file      = $percona::params::config_file,
+  $config_file      = $percona::params::_config_file,
 
 ) inherits percona::params {
 
