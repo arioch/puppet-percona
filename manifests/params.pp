@@ -109,7 +109,7 @@ class percona::params (
     }
   }
 
-  $_config_file_ = $config_file ? {
+  $_config_file = $config_file ? {
     undef   => $default_config_file,
     default => $config_file,
   }
