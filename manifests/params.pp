@@ -52,6 +52,7 @@ class percona::params (
   $config_skip       = false,
   $config_replace    = true,
   $config_include_dir = undef,
+  $config_file       = undef,
   $server            = false,
   $service_enable    = true,
   $service_ensure    = 'running',
@@ -86,7 +87,7 @@ class percona::params (
   case $::operatingsystem {
     /(?i:debian|ubuntu)/: {
       $config_dir  = '/etc/mysql'
-      $config_file = '/etc/mysql/my.cnf'
+      $default_config_file = '/etc/mysql/my.cnf'
       $template    = $config_template ? {
         undef   => 'percona/my.cnf.Debian.erb',
         default => $config_template,
@@ -95,7 +96,7 @@ class percona::params (
     }
 
     /(?i:redhat|centos)/: {
-      $config_file = '/etc/my.cnf'
+      $default_config_file = '/etc/my.cnf'
       $template    = $config_template ? {
         undef   => 'percona/my.cnf.erb',
         default => $config_template,
@@ -107,4 +108,10 @@ class percona::params (
       fail('Operating system not supported yet.')
     }
   }
+
+  $_config_file_ = $config_file ? {
+    undef   => $default_config_file,
+    default => $config_file,
+  }
+
 }
