@@ -39,11 +39,16 @@ class percona::install {
       if $cluster {
         $pkg_client_default = "Percona-XtraDB-Cluster-client"
         $pkg_server_default = "Percona-XtraDB-Cluster-server"
-	# The Percona-Compat packages break clusteing.
-        $pkg_common_default = [
-          'percona-toolkit',
-          'Percona-XtraDB-Cluster-shared',
-        ]
+	# The Percona-Compat packages break Cluster-shared.
+        if ( $::percona::pkg_compat == false ) {
+          $pkg_common_default = [
+            'percona-toolkit',
+            'Percona-XtraDB-Cluster-shared',
+          ]
+        }
+        else {
+          $pkg_common_default = 'percona-toolkit' 
+        }
       }
       else {
         $pkg_client_default = "Percona-Server-client-${pkg_version}"
@@ -55,19 +60,18 @@ class percona::install {
       }
 
       # Installation of Percona's shared compatibility libraries
-      if ( ! $cluster ) {
-        case $percona_version {
-          '5.5': {
-            $pkg_compat = $::percona::pkg_compat ? {
-              undef   => 'Percona-Server-shared-compat',
-              default => $::percona::pkg_compat,
-            }
+      case $percona_version {
+        '5.5': {
+          $pkg_compat = $::percona::pkg_compat ? {
+            undef    => 'Percona-Server-shared-compat',
+            false    => '',
+            default  => $::percona::pkg_compat,
           }
-          default: {
-            $pkg_compat = $::percona::pkg_compat ? {
-              undef   => 'Percona-SQL-shared-compat',
-              default => $::percona::pkg_compat,
-            }
+        }
+        default: {
+          $pkg_compat = $::percona::pkg_compat ? {
+            undef   => 'Percona-SQL-shared-compat',
+            default => $::percona::pkg_compat,
           }
         }
       }
@@ -77,6 +81,7 @@ class percona::install {
       fail('Operating system not supported yet.')
     }
   }
+#        fail("package is $pkg_compat")
 
   $pkg_client = $::percona::pkg_client ? {
     undef   => $pkg_client_default,
