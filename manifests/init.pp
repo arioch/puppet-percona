@@ -7,6 +7,12 @@
 # For a complete overview of the parameters you can use, take a look at
 # percona::params. Parameters documented here can not be set globally.
 #
+# === Parameter Extras:
+#
+# For certain options, using '.' (dots) is not allowed. For this
+# you can use $::percona::sanitized_servername. ('.' are replaced by '-')
+#
+#
 # === Actions:
 #  - Install PerconaDB
 #
@@ -113,6 +119,8 @@ class percona (
     default => $config_include_dir,
   }
 
+  $sanitized_servername = regsubst($::percona::servername,'\.','-')
+
 
   ## Translate settings in params in a hash.
   $params = {
@@ -123,8 +131,8 @@ class percona (
       'mysqld/socket'                    => $::percona::socket,
       'mysqld/user'                      => $::percona::daemon_user,
       'mysqld/innodb_log_group_home_dir' => $::percona::datadir,
-      'mysqld/log_bin'                   => "${::percona::datadir}/${::percona::servername}-bin",
-      'mysqld/relay_log'                 => "${::percona::datadir}/${::percona::servername}-relay",
+      'mysqld/log_bin'                   => "${::percona::datadir}/${sanitized_servername}-bin",
+      'mysqld/relay_log'                 => "${::percona::datadir}/${sanitized_servername}-relay",
       'mysqld/slow_query_log_file'       => "${::percona::logdir}/${::percona::servername}-slow.log",
       'mysqld/symbolic-links'            => '0',
 
