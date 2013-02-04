@@ -41,7 +41,7 @@
 # TODO: Document parameters
 #
 class percona::params (
-  $percona_version   = '5.1',
+  $percona_version   = '5.5',
   $client            = true,
   $config_content    = undef,
   $config_dir_mode   = '0750',
@@ -57,6 +57,15 @@ class percona::params (
   $service_ensure    = 'running',
   $service_name      = 'mysql',
   $service_restart   = true,
+  $cluster           = false,
+  $cluster_index     = undef,
+  $cluster_address   = 'gcomm://',
+  $cluster_node_name = $fqdn,
+  $cluster_name      = undef,
+  $cluster_replication_user = undef,
+  $cluster_replication_password = undef,
+  $cluster_slave_threads = 2,
+  $cluster_sst_method = 'xtrabackup',
   $daemon_group      = 'mysql',
   $daemon_user       = 'mysql',
   $tmpdir            = undef,
@@ -106,5 +115,10 @@ class percona::params (
     default: {
       fail('Operating system not supported yet.')
     }
+  }
+
+  $cluster_wsrep_provider = $::hardwareisa ? {
+    'x86_64' => '/usr/lib64/libgalera_smm.so',
+    default  => '/usr/lib/libgalera_smm.so',
   }
 }
