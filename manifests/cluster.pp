@@ -26,4 +26,14 @@ class percona::cluster {
       'mysqld/innodb_autoinc_lock_mode' => '2',
     }
   }
+
+  # For checking the cluster's health
+  if $::percona::cluster {
+    file { '/etc/xinetd.d/mysqlchk':
+      source => "puppet:///modules/percona/xinetd.d/mysqlchk",
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0555',
+    }
+  }
 }
