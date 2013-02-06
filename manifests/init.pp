@@ -119,7 +119,7 @@ class percona (
     default => $config_include_dir,
   }
 
-  $sanitized_servername = regsubst($::percona::servername,'\.','-')
+  $sanitized_servername = regsubst($::percona::servername,'\.','-','G')
 
 
   ## Translate settings in params in a hash.
