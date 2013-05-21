@@ -48,9 +48,9 @@ define percona::adminpass (
 ) {
 
   exec {"percona-adminpass-${name}":
-    onlyif => [
+    onlyif    => [
       'test -f /usr/bin/mysqladmin',
-      "mysqladmin -u${user} -h${host} status",
+      "mysqladmin -u${user} -h${host} --no-defaults status",
     ],
     path      => ['/usr/bin','/bin',],
     command   => "mysqladmin -h ${host} -u${user} password ${password}",
