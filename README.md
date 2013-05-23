@@ -165,7 +165,7 @@ For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d
     percona::rights {'userbar on dbfoo':
       priv => 'select_priv',
       host => 'localhost',
-      database => '*'
+      database => '*',
       password => 'default',
     }
 
