@@ -69,11 +69,11 @@ describe 'the percona_hash_merge function' do
 
     result = scope.function_percona_hash_merge([hash])
     result.should == {
-      'key'         => { :value => 'value', :ensure => 'present', :section => 'mysqld', :key => 'key', },
-      'proper'      => { :value => 'bar',   :ensure => 'present', :section => 'mysqld', :key => 'proper', },
-      'empty'       => { :value => :undef,  :ensure => 'present', :section => 'mysqld', :key => 'empty'},
-      'novalue'     => { :value => :undef,  :ensure => 'present', :section => 'mysqld', :key => 'novalue', },
-      'section/foo' => { :value => :undef, :ensure => 'present', :section => 'section', :key => 'foo', }
+      'mysqld/key'     => { :value => 'value', :ensure => 'present', :section => 'mysqld', :key => 'key', },
+      'mysqld/proper'  => { :value => 'bar',   :ensure => 'present', :section => 'mysqld', :key => 'proper', },
+      'mysqld/empty'   => { :value => :undef,  :ensure => 'present', :section => 'mysqld', :key => 'empty'},
+      'mysqld/novalue' => { :value => :undef,  :ensure => 'present', :section => 'mysqld', :key => 'novalue', },
+      'section/foo'    => { :value => :undef, :ensure => 'present', :section => 'section', :key => 'foo', }
     }
 
   end
@@ -102,10 +102,10 @@ describe 'the percona_hash_merge function' do
     }
 
     merged =  {
-      'in'       => { :value => 'default',    :ensure => 'present', :section => 'mysqld', :key => 'in', },
-      'extra'    => { :value => ['param'],    :ensure => 'present', :section => 'mysqld', :key => 'extra', },
-      'override' => { :value => 'overridden', :ensure => 'present', :section => 'mysqld', :key => 'override', },
-      'be-gone'  => { :value => :undef,       :ensure => 'absent',  :section => 'mysqld', :key => 'be-gone',},
+      'mysqld/in'       => { :value => 'default',    :ensure => 'present', :section => 'mysqld', :key => 'in', },
+      'mysqld/extra'    => { :value => ['param'],    :ensure => 'present', :section => 'mysqld', :key => 'extra', },
+      'mysqld/override' => { :value => 'overridden', :ensure => 'present', :section => 'mysqld', :key => 'override', },
+      'mysqld/be-gone'  => { :value => :undef,       :ensure => 'absent',  :section => 'mysqld', :key => 'be-gone',},
     }
 
     result = scope.function_percona_hash_merge([hash, default_hash])
@@ -142,6 +142,20 @@ describe 'the percona_hash_merge function' do
     }
     result = scope.function_percona_hash_merge([my_cnf])
     result.should == {'user' => {:value => 'root', :section => 'mysql', :ensure => 'present', :key => 'user',}}
+
+  end
+
+  it 'should merge values with and without sections properly' do
+    first = {
+      'foo' => 'bar',
+    }
+    second = {
+      'mysqld/foo' => 'second',
+    }
+
+    result = scope.function_percona_hash_merge([first, second])
+    result.should == {'mysqld/foo' => {:value => 'bar', :section => 'mysqld', :ensure => 'present', :key => 'mysqld/foo' }}
+
 
   end
 
