@@ -82,51 +82,19 @@ EODOC
     args = [args] unless args.is_a?(Array)
     args.flatten!
 
-    # This are default parameters for each entry in our hash.
-    keyset_default = { :ensure => 'present', :value => :undef, :section => 'mysqld'}
-
+    sanitized = []
     # Sanitize ALL the hashes! Add/merge with our keyset_default.
     args.each do |hash|
       # Yeah, we only handle hashes well.
       raise(Puppet::ParseError, 'percona_hash_merge(): Arguments should be hashes') unless hash.is_a?(Hash)
-
-      # Loop over the key-value pairs.
-      hash.map do |key,value|
-        if key =~ /^([^\/]+)\/([^\/]+)$/
-          # If the key is something like section/value, parse section and key accordingly.
-          hashkey = {:section => $1, :key => $2 }
-        else
-          # Forward the key.
-          hashkey = {:key => key }
-        end
-
-        # key => 'present' or 'absent' are special values which we handle here.
-        # this is a shortcut for parameters that take no arguments but should just be present.
-        if ['present', 'absent'].include?(value)
-          hashkey = hashkey.merge({ :value => :undef, :ensure => value,})
-
-        # Handle Strings, Integers, Booleans and undefined.
-        elsif value.is_a?(String) or value.is_a?(Integer) or [true, false, :undef].include?(value) or value.is_a?(Array)
-          hashkey = hashkey.merge({ :value => value, :ensure => 'present', })
-
-        # If its a hash, we presume it already has proper parameters defined.
-        elsif value.is_a?(Hash)
-          hashkey = hashkey.merge(value)
-
-        # Anything else is not allowed.
-        else
-          raise(Puppet::ParseError, 'percona_hash_merge(): Values should be strings, numbers, :undef, arrays or hashes.')
-        end
-
-        hash[key] = keyset_default.merge(hashkey)
-      end
+      sanitized << function_percona_hash_sanitize([hash])
     end
 
     # The first hash in the array (first argument) is the most correct.
-    result_hash = args.shift
+    result_hash = sanitized.shift
 
     ## Merge them here ;)
-    args.each do |hash|
+    sanitized.each do |hash|
       hash.each do |k,v|
         if ! result_hash.include?(k)
           result_hash[k] = v
