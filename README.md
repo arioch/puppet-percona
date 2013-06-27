@@ -102,13 +102,16 @@ percona_hash_merge() function.
 
 An example hiera.yaml file:
 
+(Note: we need to put 5.5 and 5.1 between quotes or puppet they are turned into
+numbers which does not play well with the module.
+
 ```yaml
 
 percona_config_global:
-  5.5:
+  "5.5":
     character-set-server: utf8
 
-  5.1:
+  "5.1":
     default-character-set: utf8
 
   global:
