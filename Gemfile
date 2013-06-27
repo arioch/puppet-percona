@@ -1,8 +1,9 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rake'
 gem 'puppet-lint', '>=0.2.0'
-gem 'rspec', '>2'
+gem 'rspec'
+gem 'rspec-expectations'
 gem 'rspec-puppet', '>=0.1.3'
 
 puppetversion = ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : ['>= 2.7']
@@ -13,3 +14,5 @@ gem 'guard'
 gem 'guard-shell', '>= 0.4.0'
 gem 'libnotify' if RUBY_PLATFORM.downcase.include?("linux")
 gem 'growl' if RUBY_PLATFORM.downcase.include?("darwin")
+
+gem 'diff_matcher'
