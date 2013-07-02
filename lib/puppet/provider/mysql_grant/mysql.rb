@@ -10,6 +10,8 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
   def mysql_args(*args)
     if @resource and @resource[:mgmt_cnf].is_a?(String)
       args.insert(0, "--defaults-file=#{@resource[:mgmt_cnf]}")
+    elsif File.file?("#{Facter.value(:root_home)}/.my.cnf")
+      args.insert(0, "--defaults-file=#{Facter.value(:root_home)}/.my.cnf")
     end
     args
   end
