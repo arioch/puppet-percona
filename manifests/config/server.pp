@@ -17,7 +17,9 @@ class percona::config::server {
   $config_replace   = $::percona::config_replace
   $config_skip      = $::percona::config_skip
 
+  $daemon_user      = $::percona::daemon_user
   $logdir           = $::percona::logdir
+  $logdir_group     = $::percona::logdir_group
   $server           = $::percona::server
   $service_name     = $::percona::service_name
   $service_restart  = $::percona::service_restart
@@ -134,6 +136,8 @@ class percona::config::server {
   file { $logdir :
     ensure => 'directory',
     mode   => $config_dir_mode,
+    owner  => $daemon_user,
+    group  => $logdir_group,
   }
 
   if $config_skip != true {
