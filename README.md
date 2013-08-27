@@ -6,7 +6,7 @@ Install a percona (mysql) server and manage users/rights/databases.
 
 ### Debian/Ubuntu
 * [Camptocamp apt module]
-or 
+or
 * [Puppetlabs apt module]
 
 ## Basic usage
@@ -14,21 +14,21 @@ or
 ### Client only
 
 ```puppet
-  class { 'apt': }
-  class { 'percona': }
+class { 'apt': }
+class { 'percona': }
 
-  Class['apt'] ->
-  Class['percona']
+Class['apt'] ->
+Class['percona']
 ```
 
 ### Client and server
 
 ```puppet
-  class { 'apt': }
-  class { 'percona': server => true, }
+class { 'apt': }
+class { 'percona': server => true, }
 
-  Class['apt'] ->
-  Class['percona']
+Class['apt'] ->
+Class['percona']
 ```
 
 ### Configuration
@@ -59,22 +59,23 @@ should look like this:
 
 ```puppet
 
-    $hash = {
-      '5.1'    => {
-        'mysqld/option' => '5.1 specific value',
-      },
-      '5.5'    => {
-        'mysqld/option'  => '5.5 specific value',
-        'mysqld/option2' => 'only exists in 5.5'
-      },
-      'global' => {
-        'mysqld/global'     => 'global option that works for any percona version',
-        'xtrabackup/global' => 'global option in the xtrabackup section'
-      },
-    }
-    class {'percona::params':
-      default_configuration => $hash,
-    }
+$hash = {
+  '5.1'    => {
+    'mysqld/option' => '5.1 specific value',
+  },
+  '5.5'    => {
+    'mysqld/option'  => '5.5 specific value',
+    'mysqld/option2' => 'only exists in 5.5'
+  },
+  'global' => {
+    'mysqld/global'     => 'global option that works for any percona version',
+    'xtrabackup/global' => 'global option in the xtrabackup section'
+  },
+}
+
+class {'percona::params':
+  default_configuration => $hash,
+}
 
 ```
 
@@ -84,15 +85,15 @@ version to use at this point.
 
 ```puppet
 
-  $configuration = {
-    'mysqld/option' => 'something',
-    'mysqld/option2' => { 'ensure' => 'absent' },
-  }
-  class {'percona':
-    percona_version => '5.5',
-    configuration   => $configuration,
-  }
+$configuration = {
+  'mysqld/option' => 'something',
+  'mysqld/option2' => { 'ensure' => 'absent' },
+}
 
+class {'percona':
+  percona_version => '5.5',
+  configuration   => $configuration,
+}
 
 ```
 ----
@@ -124,11 +125,11 @@ and in your manifests
 
 ```puppet
 
-  class {'percona::params':
-    default_configuration => hiera('percona_config_global', undef),
-  }
+class {'percona::params':
+  default_configuration => hiera('percona_config_global', undef),
+}
 
-  include percona
+include percona
 
 ```
 
@@ -141,19 +142,19 @@ For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d
 
 ```puppet
 
-    # This will create a file in the config_folder for each entry.
-    percona::conf {
-      'innodb_file_per_table': content => "[mysqld]\ninnodb_file_per_table";
-      'query_cache_size':      content => "[mysqld]\nquery_cache_size = 32M";
-      'table_open_cache':      content => "[mysqld]\ntable_open_cache = 768";
+# This will create a file in the config_folder for each entry.
+percona::conf {
+  'innodb_file_per_table': content => "[mysqld]\ninnodb_file_per_table";
+  'query_cache_size':      content => "[mysqld]\nquery_cache_size = 32M";
+  'table_open_cache':      content => "[mysqld]\ntable_open_cache = 768";
 
-      'foo':
-        ensure  => present,
-        content => template ("percona/custom1.cnf.erb");
-      'bar':
-        ensure  => absent,
-        content => template ("percona/custom2.cnf.erb");
-    }
+  'foo':
+    ensure  => present,
+    content => template ("percona/custom1.cnf.erb");
+  'bar':
+    ensure  => absent,
+    content => template ("percona/custom2.cnf.erb");
+}
 
 ```
 
@@ -161,21 +162,21 @@ For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d
 
 ```puppet
 
-    percona::database { 'dbfoo':
-      ensure => present;
-    }
+percona::database { 'dbfoo':
+  ensure => present;
+}
 
-    percona::rights {'userbar on dbfoo':
-      priv     => 'select_priv',
-      host     => 'localhost',
-      database => '*',
-      password => 'default',
-    }
+percona::rights {'userbar on dbfoo':
+  priv     => 'select_priv',
+  host     => 'localhost',
+  database => '*',
+  password => 'default',
+}
 
-    # You can ommit the user, host and database parameter if you use this format:
-    percona::rights {'user@localhost/dbname':
-      priv => 'all'
-    }
+# You can ommit the user, host and database parameter if you use this format:
+percona::rights {'user@localhost/dbname':
+  priv => 'all'
+}
 
 ```
 
@@ -183,7 +184,9 @@ For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d
 
 Unit testing is done using [rspec-puppet]:
 
-    # bundle && bundle exec rspec
+  # bundle install && bundle exec rspec
+
+## Links
 
 [camptocamp apt module]: https://github.com/camptocamp/puppet-apt
 [Puppetlabs apt module]: https://github.com/puppetlabs/puppetlabs-apt

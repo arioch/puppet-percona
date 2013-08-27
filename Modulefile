@@ -1,4 +1,4 @@
-name 'vstone-percona'
+name 'vStone-percona'
 version '1.2.1'
 
 author 'Jan Vansteenkiste <jan@vstone.eu>'
