@@ -24,11 +24,11 @@ or
 ### Client and server
 
 ```puppet
-    class { 'apt': }
-    class { 'percona': server => true, }
+  class { 'apt': }
+  class { 'percona': server => true, }
 
-    Class['apt'] ->
-    Class['percona']
+  Class['apt'] ->
+  Class['percona']
 ```
 
 ### Configuration
@@ -166,8 +166,8 @@ For debian users, the config_include_dir has been defaulted to /etc/mysql/conf.d
     }
 
     percona::rights {'userbar on dbfoo':
-      priv => 'select_priv',
-      host => 'localhost',
+      priv     => 'select_priv',
+      host     => 'localhost',
       database => '*',
       password => 'default',
     }
