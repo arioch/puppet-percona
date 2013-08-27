@@ -10,6 +10,8 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
   def mysql_args(*args)
     if @resource and @resource[:mgmt_cnf].is_a?(String)
       args.insert(0, "--defaults-file=#{@resource[:mgmt_cnf]}")
+    elsif File.file?("#{Facter.value(:root_home)}/.my.cnf")
+      args.insert(0, "--defaults-file=#{Facter.value(:root_home)}/.my.cnf")
     end
     args
   end
@@ -95,7 +97,7 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
     if name[:type] == :db
       fields << :db
     end
-    not mysql(mysql_args("mysql", "-NBe", 'SELECT "1" FROM %s WHERE %s' % [ name[:type], fields.map do |f| "%s=\"%s\"" % [f, name[f]] end.join(' AND ')])).empty?
+    not mysql(mysql_args("mysql", "-NBe", "SELECT '1' FROM %s WHERE %s" % [ name[:type], fields.map do |f| "%s=\"%s\"" % [f, name[f]] end.join(' AND ')])).empty?
   end
 
   def all_privs_set?
@@ -117,9 +119,9 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
 
     case name[:type]
     when :user
-      privs = mysql(mysql_args("mysql", "-Be", 'select * from user where user="%s" and host="%s"' % [ name[:user], name[:host] ]))
+      privs = mysql(mysql_args("mysql", "-Be", "select * from user where user='%s' and host='%s'" % [ name[:user], name[:host] ]))
     when :db
-      privs = mysql(mysql_args("mysql", "-Be", 'select * from db where user="%s" and host="%s" and db="%s"' % [ name[:user], name[:host], name[:db] ]))
+      privs = mysql(mysql_args("mysql", "-Be", "select * from db where user='%s' and host='%s' and db='%s'" % [ name[:user], name[:host], name[:db] ]))
     end
 
     if privs.match(/^$/)
@@ -148,11 +150,11 @@ Puppet::Type.type(:mysql_grant).provide(:mysql) do
     case name[:type]
     when :user
       stmt = 'update user set '
-      where = ' where user="%s" and host="%s"' % [ name[:user], name[:host] ]
+      where = " where user='%s' and host='%s'" % [ name[:user], name[:host] ]
       all_privs = user_privs
     when :db
       stmt = 'update db set '
-      where = ' where user="%s" and host="%s"' % [ name[:user], name[:host] ]
+      where = " where user='%s' and host='%s'" % [ name[:user], name[:host] ]
       all_privs = db_privs
     end
 

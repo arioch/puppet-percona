@@ -4,7 +4,7 @@
 #
 class percona::module {
 
-  $id = 'unifiedpost-puppet-percona'
-  $version = '1.2.0'
+  $id = 'vstone-puppet-percona'
+  $version = '1.2.1'
 
 }
