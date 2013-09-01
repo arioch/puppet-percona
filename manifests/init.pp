@@ -105,6 +105,7 @@ class percona (
   # They are specific for this server instance.
   $configuration    = {},
   $servername       = $::fqdn,
+  $users            = undef,
 
   ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
@@ -148,6 +149,10 @@ class percona (
   include percona::install
   include percona::config
   include percona::service
+
+  if $users {
+    create_resources('percona::rights', hiera_hash('percona::users', $users))
+  }
 
   Class['percona::preinstall'] ->
   Class['percona::install'] ->
