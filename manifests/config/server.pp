@@ -27,6 +27,9 @@ class percona::config::server {
   $configuration         = $::percona::configuration
   $default_configuration = $::percona::params::default_configuration
 
+  $daemon_group      = $::percona::daemon_group
+  $daemon_user       = $::percona::daemon_user
+
   File {
     owner   => $config_user,
     group   => $config_group,
@@ -134,6 +137,8 @@ class percona::config::server {
   file { $logdir :
     ensure => 'directory',
     mode   => $config_dir_mode,
+    group  => $daemon_group,
+    owner  => $daemon_user,
   }
 
   if $config_skip != true {
