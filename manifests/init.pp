@@ -100,6 +100,7 @@ class percona (
   $pkg_version      = $percona::params::pkg_version,
 
   $mgmt_cnf         = $percona::params::mgmt_cnf,
+  $root_password    = undef,
 
   ## These options can NOT be defaulted in percona::params.
   # They are specific for this server instance.
@@ -157,6 +158,17 @@ class percona (
 
   if $databases {
     create_resources('percona::database', hiera_hash('percona::databases', $databases))
+  }
+
+  if $root_password {
+    percona::adminpass{ 'root':
+      password  => $root_password,
+    }
+
+    percona::mgmt_cnf { $mgmt_cnf:
+      password => $root_password,
+      user     => 'root',
+    }
   }
 
   Class['percona::preinstall'] ->
