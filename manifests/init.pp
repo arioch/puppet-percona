@@ -86,6 +86,7 @@ class percona (
 
   $tmpdir           = $percona::params::tmpdir,
   $logdir           = $percona::params::logdir,
+  $logdir_link      = $percona::params::logdir_link,
   $socket           = $percona::params::socket,
   $datadir          = $percona::params::datadir,
   $targetdir        = $percona::params::targetdir,
