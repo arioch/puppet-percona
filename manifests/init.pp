@@ -86,6 +86,7 @@ class percona (
 
   $tmpdir           = $percona::params::tmpdir,
   $logdir           = $percona::params::logdir,
+  $logdir_link      = $percona::params::logdir_link,
   $socket           = $percona::params::socket,
   $datadir          = $percona::params::datadir,
   $targetdir        = $percona::params::targetdir,
@@ -100,11 +101,14 @@ class percona (
   $pkg_version      = $percona::params::pkg_version,
 
   $mgmt_cnf         = $percona::params::mgmt_cnf,
+  $root_password    = undef,
 
   ## These options can NOT be defaulted in percona::params.
   # They are specific for this server instance.
   $configuration    = {},
   $servername       = $::fqdn,
+  $databases        = undef,
+  $users            = undef,
 
   ## These settings are defaulted distro specific ##
   $template         = $percona::params::template,
@@ -148,6 +152,25 @@ class percona (
   include percona::install
   include percona::config
   include percona::service
+
+  if $users {
+    create_resources('percona::rights', hiera_hash('percona::users', $users))
+  }
+
+  if $databases {
+    create_resources('percona::database', hiera_hash('percona::databases', $databases))
+  }
+
+  if $root_password {
+    percona::adminpass{ 'root':
+      password  => $root_password,
+    }
+
+    percona::mgmt_cnf { $mgmt_cnf:
+      password => $root_password,
+      user     => 'root',
+    }
+  }
 
   Class['percona::preinstall'] ->
   Class['percona::install'] ->

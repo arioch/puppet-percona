@@ -133,7 +133,7 @@ define percona::rights (
     }
 
     mysql_user { "${_user}@${_host}":
-      ensure        => 'present',
+      ensure        => $ensure,
       password_hash => $pwhash,
       mgmt_cnf      => $mycnf,
       require       => [

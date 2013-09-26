@@ -32,6 +32,12 @@
 # $config_file::            Location of the default mysql my.cnf config file
 #                           for your operatingsystem.
 #
+#
+# === Extra parameters:
+#
+# $logdir_link::            Location of the folder which holds the mysql logs
+#                           linked from original logs directory
+#
 # === Examples:
 #
 # ==== Setting global and default configuration options.
@@ -62,6 +68,7 @@ class percona::params (
   $daemon_user       = 'mysql',
   $tmpdir            = undef,
   $logdir            = '/var/log/percona',
+  $logdir_link       = undef,
   $socket            = '/var/lib/mysql/mysql.sock',
   $datadir           = '/var/lib/mysql',
   $targetdir         = '/data/backups/mysql/',
