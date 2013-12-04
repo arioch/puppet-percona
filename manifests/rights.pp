@@ -111,8 +111,8 @@ define percona::rights (
 
   ## Host param
   $_host = $host ? {
-    undef   => $default_host,
-    default => $host,
+    'localhost' => $default_host,
+    default     => $host,
   }
 
   ## Database param
