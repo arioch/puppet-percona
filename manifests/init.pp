@@ -46,7 +46,6 @@
 #       percona::rights {'Set rights for replication':
 #         user     => 'repl',
 #         password => 'repl',
-#         database => ['%'],
 #         priv     => ['Repl_slave_priv'],
 #         host     => '$hostname',
 #       }
