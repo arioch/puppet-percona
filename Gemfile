@@ -13,6 +13,10 @@ group :rake do
 
   gem 'diff_matcher'
 
+  gem 'mime-types', (RUBY_VERSION =~ /^1.8/ ? '~> 1.25.1' : nil)
+
+  nokogiriversion = (RUBY_VERSION =~ /^1.8/ ? '~> 1.5.0' : nil)
+  gem 'nokogiri', nokogiriversion
   gem 'puppet-blacksmith'
 end
 
