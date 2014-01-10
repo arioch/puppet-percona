@@ -3,17 +3,17 @@
 ## Module:           '<%= scope.to_hash['module_name'] %>' 
 ## Template source:  'MODULES<%= template_source.gsub(Regexp.new("^#{Puppet::Node::Environment.current[:modulepath].gsub(':','|')}"),"") %>'
 [client]
-  user = <%= user %>
-  password = <%= password %>
+  user = <%= @user %>
+  password = <%= @password %>
 
 [mysql]
-  user = <%= user %>
-  password = <%= password %>
+  user = <%= @user %>
+  password = <%= @password %>
 
 [mysqldump]
-  user = <%= user %>
-  password = <%= password %>
+  user = <%= @user %>
+  password = <%= @password %>
 
 [mysqladmin]
-  user = <%= user %>
-  password = <%= password %>
+  user = <%= @user %>
+  password = <%= @password %>
