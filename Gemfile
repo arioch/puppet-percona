@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 group :rake do
-  gem 'rake'
+  gem 'rake', (RUBY_VERSION =~ /^1.8/ ? '< 10.0.3' : nil)
   gem 'puppet-lint', '>=0.2.0'
   gem 'rspec'
   gem 'rspec-expectations'
@@ -12,12 +12,14 @@ group :rake do
   gem 'puppetlabs_spec_helper', '>=0.2.0'
 
   gem 'diff_matcher'
-
-  gem 'mime-types', (RUBY_VERSION =~ /^1.8/ ? '~> 1.25.1' : nil)
-
-  nokogiriversion = (RUBY_VERSION =~ /^1.8/ ? '~> 1.5.0' : nil)
-  gem 'nokogiri', nokogiriversion
   gem 'puppet-blacksmith'
+
+  ## Ruby version madness
+  gem 'mime-types', (RUBY_VERSION =~ /^1.8/ ? '~> 1.25.1' : nil)
+  gem 'nokogiri',  (RUBY_VERSION =~ /^1.8/ ? '~> 1.5.0' : nil)
+  gem 'timers', (RUBY_VERSION =~ /^1.8/ ? '~> 1.0.0' : nil)
+
+
 end
 
 group :vagrant do
