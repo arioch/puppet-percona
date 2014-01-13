@@ -18,7 +18,7 @@ describe 'the percona_hash_sections function' do
 
   it 'should accept hashes as arguments' do
     expect {
-      scope.function_percona_hash_sections([{'a' => 'hash'}])
+      scope.function_percona_hash_sections([{'a' => {:section => 'hash'}}])
     }.not_to raise_error
   end
 
