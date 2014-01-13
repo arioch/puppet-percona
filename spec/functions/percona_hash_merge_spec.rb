@@ -11,42 +11,42 @@ describe 'the percona_hash_merge function' do
   end
 
   it 'should throw an error on invalid types' do
-    lambda {
+    expect {
       class T
       end
 
       scope.function_percona_hash_merge([{ 'bogus' => T.new}])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should accept strings as values' do
-    lambda {
+    expect {
       scope.function_percona_hash_merge([{'value' => 'string' }])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should accept undef as values' do
-    lambda {
+    expect  {
       scope.function_percona_hash_merge([{'value' => :undef }])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should accept hashes as values' do
-    lambda {
+    expect {
       scope.function_percona_hash_merge([{'value' => {:value => 'hash'} }])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should accept numbers as values' do
-    lambda {
+    expect {
       scope.function_percona_hash_merge([{'value' => 1 }])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should accept arrays as values' do
-    lambda {
+    expect  {
       scope.function_percona_hash_merge([{'value' => ['foo','bar']}])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   ['present','absent'].each do |str|

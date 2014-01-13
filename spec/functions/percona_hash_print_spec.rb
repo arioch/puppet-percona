@@ -9,48 +9,48 @@ describe 'the percona_hash_print function' do
   end
 
   it 'should throw an error with more than 2 arguments' do
-    lambda {
+    expect {
       scope.function_percona_hash_print([{'a' => 'hash',},{},'foobar'])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should throw an error with wrong type for section' do
-    lambda {
+    expect {
       hash = {}
       section = {}
       scope.function_percona_hash_print([hash, section])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should throw an error with wrong type for hash' do
-    lambda {
+    expect {
       hash = 'a string?'
       section = 'section'
       scope.function_percona_hash_print([hash, section])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error
   end
 
   it 'should not throw an error with 1 argument' do
-    lambda {
+    expect {
       hash = {}
       scope.function_percona_hash_print([hash])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should not throw any error with 2 arguments and section is a string' do
-    lambda {
+    expect {
       hash = {}
       section = 'string'
       scope.function_percona_hash_print([hash, section])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should not throw any error with 2 arguments and section is an array' do
-    lambda {
+    expect {
       hash = {}
       section = ['foo','bar']
       scope.function_percona_hash_print([hash, section])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should print out ordened' do

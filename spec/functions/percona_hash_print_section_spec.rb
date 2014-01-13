@@ -9,40 +9,40 @@ describe 'the percona_hash_print_section function' do
   end
 
   it 'should throw an error with 1 argument' do
-    lambda {
+    expect {
       scope.function_percona_hash_print_section(['mysqld'])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should throw an error with more than 2 arguments' do
-    lambda {
+    expect {
       scope.function_percona_hash_print_section(['mysqld',{},{}])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should throw an error with wrong type for section' do
-    lambda {
+    expect {
       hash = {}
       section = {}
 
       scope.function_percona_hash_print_section([hash,section])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should throw an error with wrong type for hash' do
-    lambda {
+    expect {
       hash = 'failing'
       section = 'mysqld'
       scope.function_percona_hash_print_section([hash,section])
-    }.should(raise_error(Puppet::ParseError))
+    }.to raise_error(Puppet::ParseError)
   end
 
   it 'should not throw any error with the correct arguments' do
-    lambda {
+    expect {
       hash = {}
       section = 'section'
       scope.function_percona_hash_print_section([hash,section])
-    }.should_not(raise_error(Puppet::ParseError))
+    }.not_to raise_error
   end
 
   it 'should print out ordened' do
