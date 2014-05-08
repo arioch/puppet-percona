@@ -1,5 +1,5 @@
 name 'vStone-percona'
-version '1.3.1'
+version '1.3.2'
 
 author 'Jan Vansteenkiste <jan@vstone.eu>'
 license 'Apache License Version 2.0'
