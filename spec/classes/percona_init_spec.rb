@@ -9,11 +9,11 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::params')
-      should include_class('percona::preinstall')
-      should include_class('percona::install')
-      should include_class('percona::config')
-      should include_class('percona::service')
+      should contain_class('percona::params')
+      should contain_class('percona::preinstall')
+      should contain_class('percona::install')
+      should contain_class('percona::config')
+      should contain_class('percona::service')
     end
   end
 
@@ -24,11 +24,11 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::params')
-      should include_class('percona::preinstall')
-      should include_class('percona::install')
-      should include_class('percona::config')
-      should include_class('percona::service')
+      should contain_class('percona::params')
+      should contain_class('percona::preinstall')
+      should contain_class('percona::install')
+      should contain_class('percona::config')
+      should contain_class('percona::service')
     end
   end
 
@@ -40,8 +40,8 @@ describe 'percona' do
  
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('percona-server-client-5.1').with_ensure('present')
@@ -58,8 +58,8 @@ describe 'percona' do
     it do
       should create_class("percona")
 
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('Percona-Server-client-51').with_ensure('present')
@@ -75,8 +75,8 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('percona-server-client-5.1').with_ensure('present')
@@ -92,8 +92,8 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('Percona-Server-client-51').with_ensure('present')
@@ -109,8 +109,8 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('percona-server-client-5.5').with_ensure('present')
@@ -126,8 +126,8 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::config::server')
 
       should contain_package('percona-toolkit').with_ensure('present')
       should contain_package('Percona-Server-client-55').with_ensure('present')
@@ -143,9 +143,9 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::install')
-      should include_class('percona::config')
-      should_not include_class('percona::config::server')
+      should contain_class('percona::install')
+      should contain_class('percona::config')
+      should_not contain_class('percona::config::server')
     end
   end
 
@@ -157,9 +157,9 @@ describe 'percona' do
 
     it do
       should create_class("percona")
-      should include_class('percona::config')
-      should include_class('percona::install')
-      should_not include_class('percona::config::server')
+      should contain_class('percona::config')
+      should contain_class('percona::install')
+      should_not contain_class('percona::config::server')
     end
   end
 end
