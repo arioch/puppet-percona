@@ -23,6 +23,7 @@
 #
 define percona::mgmt_cnf (
   $password,
+  $socket,
   $user      = 'root',
   $owner     = 'root',
   $group     = 'root',
