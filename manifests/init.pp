@@ -145,6 +145,7 @@ class percona (
 
       'xtrabackup/datadir'               => $::percona::datadir,
       'xtrabackup/target_dir'            => $::percona::targetdir,
+      'xtrabackup/socket'                => $::percona::socket,
     },
   }
 
