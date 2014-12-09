@@ -169,7 +169,7 @@ class percona (
     percona::mgmt_cnf { $mgmt_cnf:
       password => $root_password,
       user     => 'root',
-      socket   => percona::socket,
+      socket   => $::percona::socket,
     }
   }
 
